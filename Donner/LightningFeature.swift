@@ -94,4 +94,9 @@ struct Strike: Equatable, Identifiable {
         guard let distance = distance else { return nil }
         return distance * 0.000621371
     }
+    
+    var duration: TimeInterval? {
+        guard let thunderTime = thunderTime else { return nil }
+        return thunderTime.timeIntervalSince(lightningTime)
+    }
 }

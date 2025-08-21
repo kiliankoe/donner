@@ -36,6 +36,37 @@ struct LightningView: View {
 struct ActiveTrackingView: View {
     let store: StoreOf<LightningFeature>
     @State private var pulseAnimation = false
+    @State private var elapsedTime: TimeInterval = 0
+    @State private var timer: Timer?
+    
+    let distanceFormatter: MeasurementFormatter = {
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .naturalScale
+        formatter.numberFormatter.maximumFractionDigits = 1
+        return formatter
+    }()
+    
+    private var currentDistance: Double {
+        return elapsedTime * 343.0  // Speed of sound in m/s
+    }
+    
+    private var formattedDistance: String {
+        let measurement = Measurement(value: currentDistance, unit: UnitLength.meters)
+        let locale = Locale.current
+        if locale.measurementSystem == .metric {
+            if currentDistance < 1000 {
+                return distanceFormatter.string(from: measurement)
+            } else {
+                return distanceFormatter.string(from: measurement.converted(to: .kilometers))
+            }
+        } else {
+            if currentDistance < 1609 {  // Less than 1 mile
+                return distanceFormatter.string(from: measurement.converted(to: .yards))
+            } else {
+                return distanceFormatter.string(from: measurement.converted(to: .miles))
+            }
+        }
+    }
 
     var body: some View {
         VStack(spacing: 30) {
@@ -53,15 +84,27 @@ struct ActiveTrackingView: View {
             }
 
             if let strike = store.currentStrike {
-                VStack(spacing: 8) {
-                    Text("Lightning detected at")
-                        .font(.subheadline)
-                        .foregroundStyle(Color.donnerTextSecondary)
+                VStack(spacing: 16) {
+                    VStack(spacing: 4) {
+                        Text("Lightning detected at")
+                            .font(.caption)
+                            .foregroundStyle(Color.donnerTextSecondary)
 
-                    Text(strike.lightningTime, style: .time)
-                        .font(.title.monospacedDigit().weight(.bold))
-                        .foregroundStyle(LinearGradient.donnerLightningGradient)
-                        .glow(color: .donnerLightningGlow, radius: 5)
+                        Text(strike.lightningTime, format: .dateTime.hour().minute().second())
+                            .font(.title2.monospacedDigit().weight(.bold))
+                            .foregroundStyle(LinearGradient.donnerLightningGradient)
+                            .glow(color: .donnerLightningGlow, radius: 5)
+                    }
+                    
+                    VStack(spacing: 8) {
+                        Text(String(format: "%.2f s", elapsedTime))
+                            .font(.system(size: 36).monospacedDigit().weight(.heavy))
+                            .foregroundStyle(Color.donnerTextPrimary)
+                        
+                        Text(formattedDistance)
+                            .font(.title3.weight(.semibold))
+                            .foregroundStyle(Color.donnerAccent)
+                    }
                 }
             }
 
@@ -105,7 +148,25 @@ struct ActiveTrackingView: View {
         )
         .onAppear {
             pulseAnimation = true
+            startTimer()
         }
+        .onDisappear {
+            stopTimer()
+        }
+    }
+    
+    private func startTimer() {
+        elapsedTime = 0
+        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+            if let strike = store.currentStrike {
+                elapsedTime = Date().timeIntervalSince(strike.lightningTime)
+            }
+        }
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
@@ -196,7 +257,6 @@ struct StrikesList: View {
                         }
                     }
                 }
-                .frame(maxHeight: 300)
             }
         }
     }
@@ -204,6 +264,51 @@ struct StrikesList: View {
 
 struct StrikeRow: View {
     let strike: Strike
+    
+    @State private var distanceFormatter: MeasurementFormatter = {
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .naturalScale
+        formatter.numberFormatter.maximumFractionDigits = 1
+        return formatter
+    }()
+    
+    @State private var shortDistanceFormatter: MeasurementFormatter = {
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.numberFormatter.maximumFractionDigits = 0
+        return formatter
+    }()
+    
+    private var primaryDistanceText: String {
+        guard let distance = strike.distance else { return "-" }
+        let measurement = Measurement(value: distance, unit: UnitLength.meters)
+        
+        // Use locale to determine primary unit
+        let locale = Locale.current
+        if locale.measurementSystem == .metric {
+            return distanceFormatter.string(from: measurement.converted(to: .kilometers))
+        } else {
+            return distanceFormatter.string(from: measurement.converted(to: .miles))
+        }
+    }
+    
+    private var secondaryDistanceText: String {
+        guard let distance = strike.distance else { return "-" }
+        let measurement = Measurement(value: distance, unit: UnitLength.meters)
+        
+        // Use locale to determine secondary unit
+        let locale = Locale.current
+        if locale.measurementSystem == .metric {
+            return shortDistanceFormatter.string(from: measurement)
+        } else {
+            return shortDistanceFormatter.string(from: measurement.converted(to: .yards))
+        }
+    }
+    
+    private var durationText: String {
+        guard let duration = strike.duration else { return "-" }
+        return String(format: "%.1f s", duration)
+    }
 
     var body: some View {
         HStack {
@@ -213,21 +318,21 @@ struct StrikeRow: View {
                         .font(.caption)
                         .foregroundStyle(LinearGradient.donnerLightningGradient)
                     
-                    Text(strike.lightningTime, style: .time)
+                    Text(strike.lightningTime, format: .dateTime.hour().minute().second())
                         .font(.headline.monospacedDigit())
                         .foregroundStyle(Color.donnerTextPrimary)
                 }
 
-                if let distance = strike.distanceInKilometers {
+                if strike.distance != nil {
                     HStack(spacing: 8) {
-                        Text(String(format: "%.1f km", distance))
+                        Text(primaryDistanceText)
                             .font(.subheadline.weight(.medium))
                             .foregroundStyle(Color.donnerAccent)
 
                         Text("·")
                             .foregroundStyle(Color.donnerTextSecondary)
 
-                        Text(String(format: "%.1f mi", strike.distanceInMiles ?? 0))
+                        Text(durationText)
                             .font(.subheadline)
                             .foregroundStyle(Color.donnerTextSecondary)
                     }
@@ -236,12 +341,12 @@ struct StrikeRow: View {
 
             Spacer()
 
-            if let distance = strike.distance {
+            if strike.distance != nil {
                 VStack(alignment: .trailing, spacing: 2) {
-                    Text(String(format: "%.0f", distance))
+                    Text(secondaryDistanceText.components(separatedBy: " ").first ?? "-")
                         .font(.title2.monospacedDigit().weight(.bold))
                         .foregroundStyle(LinearGradient.donnerLightningGradient)
-                    Text("meters")
+                    Text(secondaryDistanceText.components(separatedBy: " ").last ?? "")
                         .font(.caption2)
                         .foregroundStyle(Color.donnerTextSecondary)
                 }
