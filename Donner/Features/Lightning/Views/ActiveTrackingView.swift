@@ -85,7 +85,7 @@ struct ActiveTrackingView: View {
           HStack {
             Image(systemName: "waveform")
               .font(.title2)
-            Text("Thunder Heard")
+            Text("I heard thunder!")
               .font(.title3.weight(.semibold))
           }
           .foregroundStyle(.black)

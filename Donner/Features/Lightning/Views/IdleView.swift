@@ -45,7 +45,7 @@ struct IdleView: View {
         HStack {
           Image(systemName: "bolt.fill")
             .font(.title2)
-          Text("Lightning Seen")
+          Text("I saw a flash!")
             .font(.title3.weight(.semibold))
         }
         .foregroundStyle(.black)
