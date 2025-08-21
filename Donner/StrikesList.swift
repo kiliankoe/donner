@@ -17,18 +17,24 @@ struct StrikesList: View {
                 }
                 .padding(.horizontal, 4)
 
-                ScrollView {
-                    VStack(spacing: 12) {
-                        ForEach(Array(store.strikes.reversed().enumerated()), id: \.element.id) { index, strike in
-                            StrikeRow(strike: strike)
-                                .transition(.asymmetric(
-                                    insertion: .move(edge: .top).combined(with: .opacity),
-                                    removal: .scale.combined(with: .opacity)
-                                ))
-                                .animation(.easeOut(duration: 0.3).delay(Double(index) * 0.05), value: store.strikes.count)
+                List {
+                    ForEach(store.strikes.reversed()) { strike in
+                        StrikeRow(strike: strike)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+                    }
+                    .onDelete { indexSet in
+                        let reversedStrikes = Array(store.strikes.reversed())
+                        for index in indexSet {
+                            if index < reversedStrikes.count {
+                                store.send(.deleteStrike(reversedStrikes[index].id))
+                            }
                         }
                     }
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
             }
         }
     }

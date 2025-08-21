@@ -16,6 +16,7 @@ struct LightningFeature {
         case lightningButtonTapped
         case thunderButtonTapped
         case resetButtonTapped
+        case deleteStrike(Strike.ID)
         case locationPermissionResponse(CLAuthorizationStatus)
         case locationUpdated(CLLocation)
         case directionUpdated(heading: Double)
@@ -50,6 +51,10 @@ struct LightningFeature {
             case .resetButtonTapped:
                 state.currentStrike = nil
                 state.isTracking = false
+                return .none
+
+            case let .deleteStrike(id):
+                state.strikes.removeAll { $0.id == id }
                 return .none
 
             case let .locationPermissionResponse(status):
