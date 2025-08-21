@@ -48,7 +48,7 @@ struct ActiveTrackingView: View {
           .animation(
             .easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: pulseAnimation)
 
-        Text("Tracking Lightning Strike")
+        Text("tracking_lightning_strike")
           .font(.title3.weight(.semibold))
           .foregroundStyle(Color.donnerTextPrimary)
       }
@@ -56,7 +56,7 @@ struct ActiveTrackingView: View {
       if let strike = store.currentStrike {
         VStack(spacing: 16) {
           VStack(spacing: 4) {
-            Text("Lightning detected at")
+            Text("lightning_detected_at")
               .font(.caption)
               .foregroundStyle(Color.donnerTextSecondary)
 
@@ -85,7 +85,7 @@ struct ActiveTrackingView: View {
           HStack {
             Image(systemName: "waveform")
               .font(.title2)
-            Text("I heard thunder!")
+            Text("i_heard_thunder")
               .font(.title3.weight(.semibold))
           }
           .foregroundStyle(.black)
@@ -99,7 +99,7 @@ struct ActiveTrackingView: View {
         Button {
           store.send(.resetButtonTapped)
         } label: {
-          Text("Cancel")
+          Text("cancel")
             .font(.callout.weight(.medium))
             .foregroundStyle(Color.donnerTextSecondary)
             .padding(.horizontal, 24)

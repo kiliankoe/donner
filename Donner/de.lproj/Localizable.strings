@@ -1,0 +1,44 @@
+// MARK: - Idle View
+"tap_when_see_lightning" = "Tippe hier wenn du einen Blitz siehst";
+"i_saw_flash" = "Blitz gesehen!";
+
+// MARK: - Active Tracking View
+"tracking_lightning_strike" = "Blitz wird verfolgt";
+"lightning_detected_at" = "Blitz erkannt um";
+"i_heard_thunder" = "Donner gehört!";
+"cancel" = "Abbrechen";
+
+// MARK: - Strikes List
+"recent_strikes" = "Letzte Einschläge";
+
+// MARK: - Storm Divider
+"new_storm" = "Neues Gewitter";
+
+// MARK: - Strike Map View
+"storm_track" = "Gewitterverlauf";
+"strike_singular" = "Einschlag";
+"strikes_plural" = "Einschläge";
+"recorded" = "aufgezeichnet";
+"latest_strike" = "Letzter Einschlag";
+"previous" = "Vorherige";
+"your_location" = "Dein Standort";
+
+// MARK: - Heading Capture View
+"point_toward_lightning" = "Richtung des Blitzeinschlags";
+"heading_capture_instruction" = "Halte dein Gerät in die Richtung, in der du den Blitz gesehen hast";
+"km_away" = "%.1f km entfernt";
+"record" = "Speichern";
+
+// MARK: - Direction Recording Tip
+"record_lightning_direction" = "Blitzrichtung aufzeichnen";
+"direction_tip_message" = "Tippe hier um die Richtung des Blitzeinschlags aufzunehmen. Damit kannst du den Einschlagsort auf einer Karte schätzen.";
+
+// MARK: - Compass Directions
+"compass_n" = "N";
+"compass_ne" = "NO";
+"compass_e" = "O";
+"compass_se" = "SO";
+"compass_s" = "S";
+"compass_sw" = "SW";
+"compass_w" = "W";
+"compass_nw" = "NW";

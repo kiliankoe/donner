@@ -3,13 +3,11 @@ import TipKit
 
 struct DirectionRecordingTip: Tip {
   var title: Text {
-    Text("Record Lightning Direction")
+    Text("record_lightning_direction")
   }
 
   var message: Text? {
-    Text(
-      "Tap to point your device toward where you saw the lightning. This helps estimate the strike's location on a map."
-    )
+    Text("direction_tip_message")
   }
 
   var image: Image? {

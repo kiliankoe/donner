@@ -11,7 +11,7 @@ struct StrikesList: View {
           Image(systemName: "clock.arrow.circlepath")
             .font(.callout)
             .foregroundStyle(LinearGradient.donnerLightningGradient)
-          Text("Recent Strikes")
+          Text("recent_strikes")
             .font(.headline)
             .foregroundStyle(Color.donnerTextPrimary)
         }

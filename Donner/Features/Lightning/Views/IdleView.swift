@@ -34,7 +34,7 @@ struct IdleView: View {
               .easeInOut(duration: 3).repeatForever(autoreverses: true), value: iconRotation)
         }
 
-        Text("Tap when you see lightning")
+        Text("tap_when_see_lightning")
           .font(.title3.weight(.medium))
           .foregroundStyle(Color.donnerTextPrimary)
       }
@@ -45,7 +45,7 @@ struct IdleView: View {
         HStack {
           Image(systemName: "bolt.fill")
             .font(.title2)
-          Text("I saw a flash!")
+          Text("i_saw_flash")
             .font(.title3.weight(.semibold))
         }
         .foregroundStyle(.black)

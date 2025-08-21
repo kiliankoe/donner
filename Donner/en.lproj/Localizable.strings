@@ -1,0 +1,44 @@
+// MARK: - Idle View
+"tap_when_see_lightning" = "Tap when you see lightning";
+"i_saw_flash" = "I saw a flash!";
+
+// MARK: - Active Tracking View
+"tracking_lightning_strike" = "Tracking Lightning Strike";
+"lightning_detected_at" = "Lightning detected at";
+"i_heard_thunder" = "I heard thunder!";
+"cancel" = "Cancel";
+
+// MARK: - Strikes List
+"recent_strikes" = "Recent Strikes";
+
+// MARK: - Storm Divider
+"new_storm" = "New Storm";
+
+// MARK: - Strike Map View
+"storm_track" = "Storm Track";
+"strike_singular" = "strike";
+"strikes_plural" = "strikes";
+"recorded" = "recorded";
+"latest_strike" = "Latest Strike";
+"previous" = "Previous";
+"your_location" = "Your Location";
+
+// MARK: - Heading Capture View
+"point_toward_lightning" = "Point Toward Lightning";
+"heading_capture_instruction" = "Hold your device steady and aim it in the direction where you saw the lightning strike";
+"km_away" = "%.1f km away";
+"record" = "Record";
+
+// MARK: - Direction Recording Tip
+"record_lightning_direction" = "Record Lightning Direction";
+"direction_tip_message" = "Tap here to record the direction where you saw the lightning. With that you estimate the strike's location on a map.";
+
+// MARK: - Compass Directions
+"compass_n" = "N";
+"compass_ne" = "NE";
+"compass_e" = "E";
+"compass_se" = "SE";
+"compass_s" = "S";
+"compass_sw" = "SW";
+"compass_w" = "W";
+"compass_nw" = "NW";

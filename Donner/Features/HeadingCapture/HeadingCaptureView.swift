@@ -29,17 +29,15 @@ struct HeadingCaptureView: View {
             .foregroundStyle(LinearGradient.donnerLightningGradient)
             .glow()
 
-          Text("Point Toward Lightning")
+          Text("point_toward_lightning")
             .font(.title2.weight(.semibold))
             .foregroundStyle(Color.donnerTextPrimary)
 
-          Text(
-            "Hold your device steady and aim it in the direction where you saw the lightning strike"
-          )
-          .font(.subheadline)
-          .foregroundStyle(Color.donnerTextSecondary)
-          .multilineTextAlignment(.center)
-          .padding(.horizontal)
+          Text("heading_capture_instruction")
+            .font(.subheadline)
+            .foregroundStyle(Color.donnerTextSecondary)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal)
         }
 
         // Compass
@@ -72,12 +70,20 @@ struct HeadingCaptureView: View {
           }
 
           // Cardinal directions
-          ForEach(["N", "E", "S", "W"], id: \.self) { direction in
-            Text(direction)
+          ForEach(
+            [
+              ("compass_n", "N", 0, -140),
+              ("compass_e", "E", 140, 0),
+              ("compass_s", "S", 0, 140),
+              ("compass_w", "W", -140, 0),
+            ], id: \.1
+          ) { key, defaultValue, xOffset, yOffset in
+            Text(NSLocalizedString(key, comment: defaultValue))
               .font(.headline.weight(.bold))
-              .foregroundStyle(direction == "N" ? Color.donnerLightning : Color.donnerTextSecondary)
-              .offset(y: direction == "N" || direction == "S" ? (direction == "N" ? -140 : 140) : 0)
-              .offset(x: direction == "E" || direction == "W" ? (direction == "E" ? 140 : -140) : 0)
+              .foregroundStyle(
+                defaultValue == "N" ? Color.donnerLightning : Color.donnerTextSecondary
+              )
+              .offset(x: xOffset, y: yOffset)
           }
         }
 
@@ -87,9 +93,13 @@ struct HeadingCaptureView: View {
             HStack {
               Image(systemName: "bolt.fill")
                 .foregroundStyle(Color.donnerLightning)
-              Text(String(format: "%.1f km away", distance))
-                .font(.subheadline)
-                .foregroundStyle(Color.donnerTextSecondary)
+              Text(
+                String(
+                  format: NSLocalizedString("km_away", comment: "Distance format"),
+                  distance)
+              )
+              .font(.subheadline)
+              .foregroundStyle(Color.donnerTextSecondary)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
@@ -104,7 +114,7 @@ struct HeadingCaptureView: View {
             store.send(.cancelButtonTapped)
             onCancel()
           } label: {
-            Text("Cancel")
+            Text("cancel")
               .font(.headline)
               .foregroundStyle(Color.donnerTextPrimary)
               .frame(maxWidth: .infinity)
@@ -121,7 +131,7 @@ struct HeadingCaptureView: View {
           } label: {
             HStack {
               Image(systemName: "checkmark.circle.fill")
-              Text("Record")
+              Text("record")
             }
             .font(.headline)
             .foregroundStyle(Color.black)
@@ -146,7 +156,16 @@ struct HeadingCaptureView: View {
   }
 
   private func compassDirection(from degrees: Double) -> String {
-    let directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+    let directions = [
+      NSLocalizedString("compass_n", comment: "North"),
+      NSLocalizedString("compass_ne", comment: "Northeast"),
+      NSLocalizedString("compass_e", comment: "East"),
+      NSLocalizedString("compass_se", comment: "Southeast"),
+      NSLocalizedString("compass_s", comment: "South"),
+      NSLocalizedString("compass_sw", comment: "Southwest"),
+      NSLocalizedString("compass_w", comment: "West"),
+      NSLocalizedString("compass_nw", comment: "Northwest"),
+    ]
     let index = Int((degrees + 22.5) / 45.0) % 8
     return directions[index]
   }

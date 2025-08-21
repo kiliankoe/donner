@@ -58,7 +58,12 @@ struct StrikeMapView: View {
 
   private var strikeText: String {
     let count = strikesWithLocation.count
-    return "\(count) \(count == 1 ? "strike" : "strikes") recorded"
+    let strikeWord =
+      count == 1
+      ? NSLocalizedString("strike_singular", comment: "Singular strike")
+      : NSLocalizedString("strikes_plural", comment: "Plural strikes")
+    let recorded = NSLocalizedString("recorded", comment: "Recorded")
+    return "\(count) \(strikeWord) \(recorded)"
   }
 
   var body: some View {
@@ -74,7 +79,7 @@ struct StrikeMapView: View {
       VStack {
         HStack {
           VStack(alignment: .leading, spacing: 4) {
-            Text("Storm Track")
+            Text("storm_track")
               .font(.title2.weight(.bold))
               .foregroundStyle(Color.donnerTextPrimary)
 
@@ -114,7 +119,7 @@ struct StrikeMapView: View {
               .fill(Color.donnerLightning)
               .frame(width: 12, height: 12)
               .glow(color: .donnerLightningGlow, radius: 4)
-            Text("Latest Strike")
+            Text("latest_strike")
               .font(.caption)
               .foregroundStyle(Color.donnerTextPrimary)
           }
@@ -123,7 +128,7 @@ struct StrikeMapView: View {
             Circle()
               .fill(Color.donnerLightning.opacity(0.6))
               .frame(width: 10, height: 10)
-            Text("Previous")
+            Text("previous")
               .font(.caption)
               .foregroundStyle(Color.donnerTextPrimary)
           }
@@ -132,7 +137,7 @@ struct StrikeMapView: View {
             Image(systemName: "location.fill")
               .font(.caption)
               .foregroundStyle(Color.blue)
-            Text("Your Location")
+            Text("your_location")
               .font(.caption)
               .foregroundStyle(Color.donnerTextPrimary)
           }
@@ -300,7 +305,8 @@ class StrikeAnnotation: NSObject, MKAnnotation {
 
   var subtitle: String? {
     if let distance = strike.distanceInKilometers {
-      return String(format: "%.1f km away", distance)
+      return String(
+        format: NSLocalizedString("km_away", comment: "Distance format"), distance)
     }
     return nil
   }

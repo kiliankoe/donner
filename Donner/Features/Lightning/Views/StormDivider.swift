@@ -19,7 +19,7 @@ struct StormDivider: View {
       HStack(spacing: 4) {
         Image(systemName: "cloud.bolt.fill")
           .font(.caption2)
-        Text("New Storm")
+        Text("new_storm")
           .font(.caption2)
           .fontWeight(.medium)
       }
