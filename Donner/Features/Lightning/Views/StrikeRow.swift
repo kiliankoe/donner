@@ -121,37 +121,36 @@ struct StrikeRow: View {
 
         Spacer()
 
-        HStack(spacing: 12) {
-          if !hasLocation && strike.distance != nil {
-            Button {
-              store.send(.recordHeadingForStrike(strike.id))
-              directionTip.invalidate(reason: .actionPerformed)
-            } label: {
-              Image(systemName: "location.north.line.fill")
-                .font(.title3)
-                .foregroundStyle(LinearGradient.donnerLightningGradient)
-                .padding(8)
-                .background(Color.donnerCardBackground.opacity(0.5))
-                .clipShape(Circle())
-                .overlay(
-                  Circle()
-                    .stroke(Color.donnerLightningGlow.opacity(0.2), lineWidth: 1)
-                )
-            }
-            .buttonStyle(.plain)
-            .popoverTip(directionTip, arrowEdge: .trailing)
+        if !hasLocation && strike.distance != nil {
+          Button {
+            store.send(.recordHeadingForStrike(strike.id))
+            directionTip.invalidate(reason: .actionPerformed)
+          } label: {
+            Image(systemName: "location.north.line.fill")
+              .font(.title3)
+              .foregroundStyle(LinearGradient.donnerLightningGradient)
+              .padding(8)
+              .background(Color.donnerCardBackground.opacity(0.5))
+              .clipShape(Circle())
+              .overlay(
+                Circle()
+                  .stroke(Color.donnerLightningGlow.opacity(0.2), lineWidth: 1)
+              )
           }
+          .buttonStyle(.plain)
+          .popoverTip(directionTip, arrowEdge: .trailing)
+        }
 
-          if strike.distance != nil {
-            VStack(alignment: .trailing, spacing: 2) {
-              Text(secondaryDistanceText.components(separatedBy: " ").first ?? "-")
-                .font(.title2.monospacedDigit().weight(.bold))
-                .foregroundStyle(LinearGradient.donnerLightningGradient)
-              Text(secondaryDistanceText.components(separatedBy: " ").last ?? "")
-                .font(.caption2)
-                .foregroundStyle(Color.donnerTextSecondary)
-            }
+        if strike.distance != nil {
+          VStack(alignment: .trailing, spacing: 2) {
+            Text(secondaryDistanceText.components(separatedBy: " ").first ?? "-")
+              .font(.title2.monospacedDigit().weight(.bold))
+              .foregroundStyle(LinearGradient.donnerLightningGradient)
+            Text(secondaryDistanceText.components(separatedBy: " ").last ?? "")
+              .font(.caption2)
+              .foregroundStyle(Color.donnerTextSecondary)
           }
+          .frame(minWidth: 80, alignment: .trailing)
         }
       }
       .padding(16)
