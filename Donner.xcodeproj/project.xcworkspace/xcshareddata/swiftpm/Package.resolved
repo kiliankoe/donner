@@ -1,5 +1,5 @@
 {
-  "originHash" : "81d703dd6e7ef361d922e4159d56e99fa7337762368097761b4ba0ff022b4d31",
+  "originHash" : "a7a54c44b40e1f541c25898043fe52e70c92d5e3c389a871206d62ecb7c235a0",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "5928286acce13def418ec36d05a001a9641086f2",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "composable-core-location",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mltbnz/composable-core-location",
+      "state" : {
+        "branch" : "main",
+        "revision" : "1f9070ce561e4ef164cc8e124e37c77eaf2f4b4f"
       }
     },
     {

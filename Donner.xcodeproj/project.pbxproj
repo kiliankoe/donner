@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		392A3A452E57A54000B9A9D1 /* ComposableCoreLocation in Frameworks */ = {isa = PBXBuildFile; productRef = 392A3A442E57A54000B9A9D1 /* ComposableCoreLocation */; };
 		39B5C3562E57195800CC2BB9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 39B5C3552E57195800CC2BB9 /* ComposableArchitecture */; };
 		39B5C3582E57198000CC2BB9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 39B5C3572E57198000CC2BB9 /* README.md */; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39B5C3562E57195800CC2BB9 /* ComposableArchitecture in Frameworks */,
+				392A3A452E57A54000B9A9D1 /* ComposableCoreLocation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +123,7 @@
 			name = Donner;
 			packageProductDependencies = (
 				39B5C3552E57195800CC2BB9 /* ComposableArchitecture */,
+				392A3A442E57A54000B9A9D1 /* ComposableCoreLocation */,
 			);
 			productName = Donner;
 			productReference = 39B5C3262E570D3A00CC2BB9 /* Donner.app */;
@@ -206,6 +209,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				39B5C3542E57195800CC2BB9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				392A3A432E57A54000B9A9D1 /* XCRemoteSwiftPackageReference "composable-core-location" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 39B5C3272E570D3A00CC2BB9 /* Products */;
@@ -414,6 +418,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -443,6 +448,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -575,6 +581,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		392A3A432E57A54000B9A9D1 /* XCRemoteSwiftPackageReference "composable-core-location" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mltbnz/composable-core-location";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		39B5C3542E57195800CC2BB9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -586,6 +600,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		392A3A442E57A54000B9A9D1 /* ComposableCoreLocation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 392A3A432E57A54000B9A9D1 /* XCRemoteSwiftPackageReference "composable-core-location" */;
+			productName = ComposableCoreLocation;
+		};
 		39B5C3552E57195800CC2BB9 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 39B5C3542E57195800CC2BB9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;

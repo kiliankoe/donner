@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import ComposableCoreLocation
 import Foundation
 import CoreLocation
 
@@ -10,6 +11,7 @@ struct LightningFeature {
         var currentStrike: Strike?
         var isTracking = false
         var locationPermissionStatus: CLAuthorizationStatus = .notDetermined
+        var strikeBeingRecordedForHeading: Strike.ID?
     }
 
     enum Action {
@@ -17,6 +19,9 @@ struct LightningFeature {
         case thunderButtonTapped
         case resetButtonTapped
         case deleteStrike(Strike.ID)
+        case recordHeadingForStrike(Strike.ID)
+        case headingCaptured(strikeId: Strike.ID, heading: Double, location: CLLocation)
+        case cancelHeadingCapture
         case locationPermissionResponse(CLAuthorizationStatus)
         case locationUpdated(CLLocation)
         case directionUpdated(heading: Double)
@@ -24,6 +29,7 @@ struct LightningFeature {
 
     @Dependency(\.date) var date
     @Dependency(\.uuid) var uuid
+    @Dependency(\.locationManager) var locationManager
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -57,6 +63,22 @@ struct LightningFeature {
                 state.strikes.removeAll { $0.id == id }
                 return .none
 
+            case let .recordHeadingForStrike(id):
+                state.strikeBeingRecordedForHeading = id
+                return .none
+
+            case let .headingCaptured(strikeId, heading, location):
+                if let index = state.strikes.firstIndex(where: { $0.id == strikeId }) {
+                    state.strikes[index].direction = heading
+                    state.strikes[index].userLocation = location
+                }
+                state.strikeBeingRecordedForHeading = nil
+                return .none
+
+            case .cancelHeadingCapture:
+                state.strikeBeingRecordedForHeading = nil
+                return .none
+
             case let .locationPermissionResponse(status):
                 state.locationPermissionStatus = status
                 return .none
@@ -83,6 +105,7 @@ struct Strike: Equatable, Identifiable {
     var lightningLocation: CLLocation?
     var thunderTime: Date?
     var direction: Double?
+    var userLocation: CLLocation?
 
     var distance: Double? {
         guard let thunderTime = thunderTime else { return nil }
@@ -103,5 +126,26 @@ struct Strike: Equatable, Identifiable {
     var duration: TimeInterval? {
         guard let thunderTime = thunderTime else { return nil }
         return thunderTime.timeIntervalSince(lightningTime)
+    }
+    
+    var estimatedStrikeLocation: CLLocation? {
+        guard let distance = distance,
+              let direction = direction,
+              let userLocation = userLocation else { return nil }
+
+        let bearing = direction * .pi / 180
+        let earthRadius = 6371000.0
+        let angularDistance = distance / earthRadius
+
+        let lat1 = userLocation.coordinate.latitude * .pi / 180
+        let lon1 = userLocation.coordinate.longitude * .pi / 180
+
+        let lat2 = asin(sin(lat1) * cos(angularDistance) + cos(lat1) * sin(angularDistance) * cos(bearing))
+        let lon2 = lon1 + atan2(sin(bearing) * sin(angularDistance) * cos(lat1), cos(angularDistance) - sin(lat1) * sin(lat2))
+
+        let newLat = lat2 * 180 / .pi
+        let newLon = lon2 * 180 / .pi
+        
+        return CLLocation(latitude: newLat, longitude: newLon)
     }
 }

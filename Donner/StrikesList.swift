@@ -19,7 +19,7 @@ struct StrikesList: View {
 
                 List {
                     ForEach(store.strikes.reversed()) { strike in
-                        StrikeRow(strike: strike)
+                        StrikeRow(strike: strike, store: store)
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
@@ -35,6 +35,25 @@ struct StrikesList: View {
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)
+            }
+            .sheet(item: Binding(
+                get: { 
+                    store.strikeBeingRecordedForHeading.flatMap { id in
+                        store.strikes.first(where: { $0.id == id })
+                    }
+                },
+                set: { _ in
+                    store.send(.cancelHeadingCapture)
+                }
+            )) { strike in
+                HeadingCaptureView(
+                    store: Store(initialState: HeadingCaptureFeature.State(strike: strike)) {
+                        HeadingCaptureFeature()
+                    },
+                    onRecordHeading: { heading, location in
+                        store.send(.headingCaptured(strikeId: strike.id, heading: heading, location: location))
+                    }
+                )
             }
         }
     }
