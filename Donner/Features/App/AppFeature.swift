@@ -4,7 +4,7 @@ import SwiftUI
 @Reducer
 struct AppFeature {
   @ObservableState
-  struct State: Equatable {
+  struct State {
     var lightning = LightningFeature.State()
   }
 

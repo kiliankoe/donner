@@ -10,6 +10,7 @@
 		392A3A452E57A54000B9A9D1 /* ComposableCoreLocation in Frameworks */ = {isa = PBXBuildFile; productRef = 392A3A442E57A54000B9A9D1 /* ComposableCoreLocation */; };
 		39B5C3562E57195800CC2BB9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 39B5C3552E57195800CC2BB9 /* ComposableArchitecture */; };
 		39B5C3582E57198000CC2BB9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 39B5C3572E57198000CC2BB9 /* README.md */; };
+		39DA8F0D2E57C2CB0057E9FA /* SharingGRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 39DA8F0C2E57C2CB0057E9FA /* SharingGRDB */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				39B5C3562E57195800CC2BB9 /* ComposableArchitecture in Frameworks */,
+				39DA8F0D2E57C2CB0057E9FA /* SharingGRDB in Frameworks */,
 				392A3A452E57A54000B9A9D1 /* ComposableCoreLocation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -102,6 +104,7 @@
 			packageProductDependencies = (
 				39B5C3552E57195800CC2BB9 /* ComposableArchitecture */,
 				392A3A442E57A54000B9A9D1 /* ComposableCoreLocation */,
+				39DA8F0C2E57C2CB0057E9FA /* SharingGRDB */,
 			);
 			productName = Donner;
 			productReference = 39B5C3262E570D3A00CC2BB9 /* Donner.app */;
@@ -161,6 +164,7 @@
 			packageReferences = (
 				39B5C3542E57195800CC2BB9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				392A3A432E57A54000B9A9D1 /* XCRemoteSwiftPackageReference "composable-core-location" */,
+				39DA8F0B2E57C2CB0057E9FA /* XCRemoteSwiftPackageReference "sharing-grdb" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 39B5C3272E570D3A00CC2BB9 /* Products */;
@@ -485,6 +489,14 @@
 				minimumVersion = 1.22.0;
 			};
 		};
+		39DA8F0B2E57C2CB0057E9FA /* XCRemoteSwiftPackageReference "sharing-grdb" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/sharing-grdb";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -497,6 +509,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 39B5C3542E57195800CC2BB9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		39DA8F0C2E57C2CB0057E9FA /* SharingGRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39DA8F0B2E57C2CB0057E9FA /* XCRemoteSwiftPackageReference "sharing-grdb" */;
+			productName = SharingGRDB;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

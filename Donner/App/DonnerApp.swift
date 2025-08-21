@@ -1,4 +1,6 @@
 import ComposableArchitecture
+import GRDB
+import SharingGRDB
 import SwiftUI
 import TipKit
 
@@ -10,6 +12,15 @@ struct DonnerApp: App {
   }
 
   init() {
+    prepareDependencies {
+      do {
+        let database = try DatabaseQueue.makeDefault()
+        $0.defaultDatabase = database
+      } catch {
+        print("Failed to initialize database: \(error)")
+      }
+    }
+
     try? Tips.configure([
       .displayFrequency(.immediate),
       .datastoreLocation(.applicationDefault),

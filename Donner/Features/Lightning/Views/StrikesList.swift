@@ -18,17 +18,30 @@ struct StrikesList: View {
         .padding(.horizontal, 4)
 
         List {
-          ForEach(store.strikes.reversed()) { strike in
-            StrikeRow(strike: strike, store: store)
-              .listRowBackground(Color.clear)
-              .listRowSeparator(.hidden)
-              .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+          ForEach(Array(store.strikes.enumerated()), id: \.element.id) { index, strike in
+            VStack(spacing: 0) {
+              // Show divider if more than an hour between this and next older strike
+              if index > 0 {
+                let previousStrike = store.strikes[index - 1]
+                let timeDifference = abs(
+                  previousStrike.lightningTime.timeIntervalSince(strike.lightningTime))
+
+                if timeDifference > 3600 {  // More than 1 hour
+                  StormDivider()
+                    .padding(.vertical, 12)
+                }
+              }
+
+              StrikeRow(strike: strike, store: store)
+            }
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
           }
           .onDelete { indexSet in
-            let reversedStrikes = Array(store.strikes.reversed())
             for index in indexSet {
-              if index < reversedStrikes.count {
-                store.send(.deleteStrike(reversedStrikes[index].id))
+              if index < store.strikes.count {
+                store.send(.deleteStrike(store.strikes[index].id))
               }
             }
           }
@@ -66,7 +79,7 @@ struct StrikesList: View {
           set: { _ in store.send(.dismissStrikeMap) }
         )
       ) {
-        StrikeMapView(strikes: store.strikes)
+        StrikeMapView(strikes: store.strikesForMap)
       }
     }
   }

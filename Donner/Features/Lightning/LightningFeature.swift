@@ -2,17 +2,43 @@ import ComposableArchitecture
 import ComposableCoreLocation
 import CoreLocation
 import Foundation
+import GRDB
+import SharingGRDB
 
 @Reducer
 struct LightningFeature {
   @ObservableState
-  struct State: Equatable {
-    var strikes: [Strike] = []
+  struct State {
+    @FetchAll
+    var persistentStrikes: [PersistentStrike] = []
+
+    var strikes: [Strike] {
+      persistentStrikes
+        .map { $0.toStrike() }
+        .sorted { $0.lightningTime > $1.lightningTime }
+    }
+
     var currentStrike: Strike?
     var isTracking = false
     var locationPermissionStatus: CLAuthorizationStatus = .notDetermined
     var strikeBeingRecordedForHeading: Strike.ID?
     var showingStrikeMap = false
+    var selectedStrikeForMap: Strike.ID?
+
+    // Get strikes within an hour of the selected strike for map display
+    var strikesForMap: [Strike] {
+      guard let selectedId = selectedStrikeForMap,
+        let selectedStrike = strikes.first(where: { $0.id == selectedId })
+      else { return [] }
+
+      let oneHour: TimeInterval = 3600
+      let minTime = selectedStrike.lightningTime.addingTimeInterval(-oneHour)
+      let maxTime = selectedStrike.lightningTime.addingTimeInterval(oneHour)
+
+      return strikes.filter { strike in
+        strike.lightningTime >= minTime && strike.lightningTime <= maxTime
+      }
+    }
   }
 
   enum Action {
@@ -33,9 +59,10 @@ struct LightningFeature {
   @Dependency(\.date) var date
   @Dependency(\.uuid) var uuid
   @Dependency(\.locationManager) var locationManager
+  @Dependency(\.defaultDatabase) var database
 
   var body: some ReducerOf<Self> {
-    Reduce { state, action in
+    Reduce { state, action -> Effect<Action> in
       switch action {
       case .lightningButtonTapped:
         if state.currentStrike == nil {
@@ -52,10 +79,15 @@ struct LightningFeature {
         guard var strike = state.currentStrike else { return .none }
 
         strike.thunderTime = date()
-        state.strikes.append(strike)
         state.currentStrike = nil
         state.isTracking = false
-        return .none
+
+        return .run { _ in
+          let persistentStrike = PersistentStrike(from: strike)
+          try await database.write { db in
+            try persistentStrike.save(db)
+          }
+        }
 
       case .resetButtonTapped:
         state.currentStrike = nil
@@ -63,20 +95,38 @@ struct LightningFeature {
         return .none
 
       case .deleteStrike(let id):
-        state.strikes.removeAll { $0.id == id }
-        return .none
+        return .run { _ in
+          try await database.write { db in
+            try db.execute(
+              sql: "DELETE FROM persistentStrike WHERE id = ?",
+              arguments: [id.uuidString]
+            )
+          }
+        }
 
       case .recordHeadingForStrike(let id):
         state.strikeBeingRecordedForHeading = id
         return .none
 
       case .headingCaptured(let strikeId, let heading, let location):
-        if let index = state.strikes.firstIndex(where: { $0.id == strikeId }) {
-          state.strikes[index].direction = heading
-          state.strikes[index].userLocation = location
-        }
         state.strikeBeingRecordedForHeading = nil
-        return .none
+
+        return .run { _ in
+          try await database.write { db in
+            if let persistentStrike =
+              try PersistentStrike
+              .fetchOne(
+                db, sql: "SELECT * FROM persistentStrike WHERE id = ?",
+                arguments: [strikeId.uuidString])
+            {
+              var updatedStrike = persistentStrike.toStrike()
+              updatedStrike.direction = heading
+              updatedStrike.userLocation = location
+              let updatedPersistentStrike = PersistentStrike(from: updatedStrike)
+              try updatedPersistentStrike.update(db)
+            }
+          }
+        }
 
       case .cancelHeadingCapture:
         state.strikeBeingRecordedForHeading = nil
@@ -87,12 +137,14 @@ struct LightningFeature {
         if let strike = state.strikes.first(where: { $0.id == id }),
           strike.estimatedStrikeLocation != nil
         {
+          state.selectedStrikeForMap = id
           state.showingStrikeMap = true
         }
         return .none
 
       case .dismissStrikeMap:
         state.showingStrikeMap = false
+        state.selectedStrikeForMap = nil
         return .none
 
       case .locationPermissionResponse(let status):
