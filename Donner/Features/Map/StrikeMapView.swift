@@ -248,7 +248,7 @@ struct StrikeMapRepresentable: UIViewRepresentable {
         annotationView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
 
         return annotationView
-      } else if let userAnnotation = annotation as? UserAnnotation {
+      } else if annotation is UserAnnotation {
         let identifier = "UserPin"
         let annotationView =
           mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
