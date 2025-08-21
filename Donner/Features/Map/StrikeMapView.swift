@@ -140,7 +140,6 @@ struct StrikeMapView: View {
     }
 }
 
-// UIViewRepresentable for more control over the map
 struct StrikeMapRepresentable: UIViewRepresentable {
     let strikes: [Strike]
     let region: MKCoordinateRegion
@@ -153,10 +152,8 @@ struct StrikeMapRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ mapView: MKMapView, context: Context) {
-        // Set region
         mapView.setRegion(region, animated: false)
-        
-        // Clear existing annotations and overlays
+
         mapView.removeAnnotations(mapView.annotations)
         mapView.removeOverlays(mapView.overlays)
         
@@ -170,8 +167,7 @@ struct StrikeMapRepresentable: UIViewRepresentable {
                 )
                 mapView.addAnnotation(annotation)
             }
-            
-            // Add user location for this strike
+
             if let userLocation = strike.userLocation {
                 let userAnnotation = UserAnnotation(
                     coordinate: userLocation.coordinate,
@@ -181,7 +177,7 @@ struct StrikeMapRepresentable: UIViewRepresentable {
             }
         }
         
-        // Add polyline for storm path
+        // Add storm path
         let strikeCoordinates = strikes.compactMap { $0.estimatedStrikeLocation?.coordinate }
         if strikeCoordinates.count > 1 {
             let polyline = MKPolyline(coordinates: strikeCoordinates, count: strikeCoordinates.count)
@@ -226,8 +222,7 @@ struct StrikeMapRepresentable: UIViewRepresentable {
                     glowView.layer.shadowOpacity = 0.5
                     glowView.layer.shadowOffset = .zero
                     pinView.insertSubview(glowView, at: 0)
-                    
-                    // Enable callout for latest strike
+
                     annotationView.canShowCallout = true
                 }
                 
@@ -238,8 +233,7 @@ struct StrikeMapRepresentable: UIViewRepresentable {
             } else if let userAnnotation = annotation as? UserAnnotation {
                 let identifier = "UserPin"
                 let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) ?? MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                
-                // Create custom view for user location
+
                 let pinView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
                 
                 let iconView = UIImageView(frame: CGRect(x: 7.5, y: 7.5, width: 15, height: 15))
@@ -278,7 +272,6 @@ struct StrikeMapRepresentable: UIViewRepresentable {
     }
 }
 
-// Custom annotation classes
 class StrikeAnnotation: NSObject, MKAnnotation {
     let coordinate: CLLocationCoordinate2D
     let strike: Strike

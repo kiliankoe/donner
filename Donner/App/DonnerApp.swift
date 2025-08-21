@@ -6,7 +6,7 @@ import TipKit
 struct DonnerApp: App {
     static let store = Store(initialState: AppFeature.State()) {
         AppFeature()
-            ._printChanges()
+//            ._printChanges()
     }
 
     init() {
