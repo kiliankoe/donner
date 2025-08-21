@@ -354,6 +354,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -384,6 +385,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
