@@ -20,19 +20,11 @@
 			remoteGlobalIDString = 39B5C3252E570D3A00CC2BB9;
 			remoteInfo = Donner;
 		};
-		39B5C3402E570D4400CC2BB9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 39B5C31E2E570D3A00CC2BB9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 39B5C3252E570D3A00CC2BB9;
-			remoteInfo = Donner;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		39B5C3262E570D3A00CC2BB9 /* Donner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Donner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39B5C3352E570D4400CC2BB9 /* DonnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DonnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		39B5C33F2E570D4400CC2BB9 /* DonnerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DonnerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39B5C3572E57198000CC2BB9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,11 +37,6 @@
 		39B5C3382E570D4400CC2BB9 /* DonnerTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = DonnerTests;
-			sourceTree = "<group>";
-		};
-		39B5C3422E570D4400CC2BB9 /* DonnerUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = DonnerUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -71,13 +58,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39B5C33C2E570D4400CC2BB9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -87,7 +67,6 @@
 				39B5C3572E57198000CC2BB9 /* README.md */,
 				39B5C3282E570D3A00CC2BB9 /* Donner */,
 				39B5C3382E570D4400CC2BB9 /* DonnerTests */,
-				39B5C3422E570D4400CC2BB9 /* DonnerUITests */,
 				39B5C3272E570D3A00CC2BB9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -97,7 +76,6 @@
 			children = (
 				39B5C3262E570D3A00CC2BB9 /* Donner.app */,
 				39B5C3352E570D4400CC2BB9 /* DonnerTests.xctest */,
-				39B5C33F2E570D4400CC2BB9 /* DonnerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,29 +130,6 @@
 			productReference = 39B5C3352E570D4400CC2BB9 /* DonnerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		39B5C33E2E570D4400CC2BB9 /* DonnerUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 39B5C34F2E570D4500CC2BB9 /* Build configuration list for PBXNativeTarget "DonnerUITests" */;
-			buildPhases = (
-				39B5C33B2E570D4400CC2BB9 /* Sources */,
-				39B5C33C2E570D4400CC2BB9 /* Frameworks */,
-				39B5C33D2E570D4400CC2BB9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				39B5C3412E570D4400CC2BB9 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				39B5C3422E570D4400CC2BB9 /* DonnerUITests */,
-			);
-			name = DonnerUITests;
-			packageProductDependencies = (
-			);
-			productName = DonnerUITests;
-			productReference = 39B5C33F2E570D4400CC2BB9 /* DonnerUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -189,10 +144,6 @@
 						CreatedOnToolsVersion = 16.4;
 					};
 					39B5C3342E570D4400CC2BB9 = {
-						CreatedOnToolsVersion = 16.4;
-						TestTargetID = 39B5C3252E570D3A00CC2BB9;
-					};
-					39B5C33E2E570D4400CC2BB9 = {
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 39B5C3252E570D3A00CC2BB9;
 					};
@@ -218,7 +169,6 @@
 			targets = (
 				39B5C3252E570D3A00CC2BB9 /* Donner */,
 				39B5C3342E570D4400CC2BB9 /* DonnerTests */,
-				39B5C33E2E570D4400CC2BB9 /* DonnerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -233,13 +183,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		39B5C3332E570D4400CC2BB9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		39B5C33D2E570D4400CC2BB9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -263,13 +206,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39B5C33B2E570D4400CC2BB9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -277,11 +213,6 @@
 			isa = PBXTargetDependency;
 			target = 39B5C3252E570D3A00CC2BB9 /* Donner */;
 			targetProxy = 39B5C3362E570D4400CC2BB9 /* PBXContainerItemProxy */;
-		};
-		39B5C3412E570D4400CC2BB9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 39B5C3252E570D3A00CC2BB9 /* Donner */;
-			targetProxy = 39B5C3402E570D4400CC2BB9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -505,40 +436,6 @@
 			};
 			name = Release;
 		};
-		39B5C3502E570D4500CC2BB9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HU85FER47E;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.kilian.DonnerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Donner;
-			};
-			name = Debug;
-		};
-		39B5C3512E570D4500CC2BB9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = HU85FER47E;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = io.kilian.DonnerUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = Donner;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -565,15 +462,6 @@
 			buildConfigurations = (
 				39B5C34D2E570D4500CC2BB9 /* Debug */,
 				39B5C34E2E570D4500CC2BB9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		39B5C34F2E570D4500CC2BB9 /* Build configuration list for PBXNativeTarget "DonnerUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				39B5C3502E570D4500CC2BB9 /* Debug */,
-				39B5C3512E570D4500CC2BB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
