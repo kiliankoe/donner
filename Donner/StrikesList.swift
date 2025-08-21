@@ -52,8 +52,17 @@ struct StrikesList: View {
                     },
                     onRecordHeading: { heading, location in
                         store.send(.headingCaptured(strikeId: strike.id, heading: heading, location: location))
+                    },
+                    onCancel: {
+                        store.send(.cancelHeadingCapture)
                     }
                 )
+            }
+            .sheet(isPresented: Binding(
+                get: { store.showingStrikeMap },
+                set: { _ in store.send(.dismissStrikeMap) }
+            )) {
+                StrikeMapView(strikes: store.strikes)
             }
         }
     }

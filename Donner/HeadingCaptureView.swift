@@ -5,6 +5,17 @@ import CoreLocation
 struct HeadingCaptureView: View {
     @Bindable var store: StoreOf<HeadingCaptureFeature>
     let onRecordHeading: (Double, CLLocation) -> Void
+    let onCancel: () -> Void
+    
+    private var canRecord: Bool {
+        #if targetEnvironment(simulator)
+        // In simulator, only need location
+        return store.userLocation != nil
+        #else
+        // On device, need both location and calibration
+        return store.userLocation != nil && store.isCalibrated
+        #endif
+    }
     
     var body: some View {
         ZStack {
@@ -42,6 +53,9 @@ struct HeadingCaptureView: View {
                         .frame(width: 20, height: 20)
                         .offset(y: -110)
                         .rotationEffect(.degrees(store.currentHeading))
+                        #if targetEnvironment(simulator)
+                        .opacity(0.8)
+                        #endif
                         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: store.currentHeading)
 
                     // Center compass
@@ -66,24 +80,27 @@ struct HeadingCaptureView: View {
                 }
 
                 // Strike info
-                if let distance = store.strike.distanceInKilometers {
-                    HStack {
-                        Image(systemName: "bolt.fill")
-                            .foregroundStyle(Color.donnerLightning)
-                        Text(String(format: "%.1f km away", distance))
-                            .font(.subheadline)
-                            .foregroundStyle(Color.donnerTextSecondary)
+                VStack(spacing: 8) {
+                    if let distance = store.strike.distanceInKilometers {
+                        HStack {
+                            Image(systemName: "bolt.fill")
+                                .foregroundStyle(Color.donnerLightning)
+                            Text(String(format: "%.1f km away", distance))
+                                .font(.subheadline)
+                                .foregroundStyle(Color.donnerTextSecondary)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(Color.donnerCardBackground)
+                        .clipShape(Capsule())
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(Color.donnerCardBackground)
-                    .clipShape(Capsule())
                 }
 
                 // Action buttons
                 HStack(spacing: 16) {
                     Button {
                         store.send(.cancelButtonTapped)
+                        onCancel()
                     } label: {
                         Text("Cancel")
                             .font(.headline)
@@ -111,8 +128,8 @@ struct HeadingCaptureView: View {
                         .background(LinearGradient.donnerButtonGradient)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
-                    .disabled(store.userLocation == nil || !store.isCalibrated)
-                    .opacity(store.userLocation == nil || !store.isCalibrated ? 0.5 : 1.0)
+                    .disabled(!canRecord)
+                    .opacity(canRecord ? 1.0 : 0.5)
                 }
                 .padding(.horizontal)
             }

@@ -11,6 +11,14 @@ struct HeadingCaptureFeature {
         var userLocation: CLLocation?
         var isCalibrated = false
         var isLocationAuthorized = false
+        
+        var isSimulator: Bool {
+            #if targetEnvironment(simulator)
+            return true
+            #else
+            return false
+            #endif
+        }
     }
     
     enum Action {
@@ -22,12 +30,25 @@ struct HeadingCaptureFeature {
     }
     
     @Dependency(\.locationManager) var locationManager
-    @Dependency(\.dismiss) var dismiss
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                #if targetEnvironment(simulator)
+                // In simulator, set dummy values
+                state.currentHeading = Double.random(in: 0...360)
+                state.isCalibrated = true
+                // Still request location for simulator
+                return .run { send in
+                    await locationManager.requestWhenInUseAuthorization()
+                    await locationManager.startUpdatingLocation()
+
+                    for await action in await locationManager.delegate() {
+                        await send(.locationManager(action))
+                    }
+                }
+                #else
                 return .run { send in
                     await locationManager.requestWhenInUseAuthorization()
                     await locationManager.startUpdatingHeading()
@@ -37,6 +58,7 @@ struct HeadingCaptureFeature {
                         await send(.locationManager(action))
                     }
                 }
+                #endif
                 
             case .onDisappear:
                 return .run { _ in
@@ -45,15 +67,12 @@ struct HeadingCaptureFeature {
                 }
                 
             case .recordButtonTapped:
-                // This will be handled by parent
-                return .run { _ in
-                    await dismiss()
-                }
+                // Parent will handle dismissal
+                return .none
                 
             case .cancelButtonTapped:
-                return .run { _ in
-                    await dismiss()
-                }
+                // Parent will handle dismissal
+                return .none
                 
             case let .locationManager(.didUpdateHeading(heading)):
                 state.currentHeading = heading.trueHeading >= 0 ? heading.trueHeading : heading.magneticHeading

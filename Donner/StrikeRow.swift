@@ -63,6 +63,7 @@ struct StrikeRow: View {
 
     var body: some View {
         ZStack {
+            // Layer 1: Map background (if available)
             if let strikeLocation = strike.estimatedStrikeLocation,
                let userLocation = strike.userLocation {
                 StrikeMapBackground(
@@ -70,8 +71,19 @@ struct StrikeRow: View {
                     userLocation: userLocation
                 )
                 .opacity(0.3)
+                
+                // Layer 2: Gradient overlay for better text contrast (only when map is shown)
+                LinearGradient(
+                    colors: [
+                        Color.donnerDarkBackground.opacity(0.85),
+                        Color.donnerDarkBackground.opacity(0.0)
+                    ],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
             }
             
+            // Layer 3: Content (HStack with text and buttons)
             HStack {
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 8) {
@@ -149,6 +161,11 @@ struct StrikeRow: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(hasLocation ? Color.donnerLightningGlow.opacity(0.3) : Color.donnerLightningGlow.opacity(0.1), lineWidth: 1)
         )
+        .onTapGesture {
+            if hasLocation {
+                store.send(.strikeTapped(strike.id))
+            }
+        }
     }
 }
 
@@ -179,8 +196,8 @@ struct StrikeMapBackground: View {
     
     var body: some View {
         Map(coordinateRegion: .constant(region), annotationItems: [
-            MapAnnotation(coordinate: strikeLocation.coordinate, type: .strike),
-            MapAnnotation(coordinate: userLocation.coordinate, type: .user)
+            StrikeMapAnnotation(coordinate: strikeLocation.coordinate, type: .strike),
+            StrikeMapAnnotation(coordinate: userLocation.coordinate, type: .user)
         ]) { item in
             MapMarker(coordinate: item.coordinate, tint: item.type == .strike ? .yellow : .blue)
         }
@@ -189,7 +206,7 @@ struct StrikeMapBackground: View {
     }
 }
 
-struct MapAnnotation: Identifiable {
+struct StrikeMapAnnotation: Identifiable {
     let id = UUID()
     let coordinate: CLLocationCoordinate2D
     let type: AnnotationType

@@ -12,6 +12,7 @@ struct LightningFeature {
         var isTracking = false
         var locationPermissionStatus: CLAuthorizationStatus = .notDetermined
         var strikeBeingRecordedForHeading: Strike.ID?
+        var showingStrikeMap = false
     }
 
     enum Action {
@@ -22,6 +23,8 @@ struct LightningFeature {
         case recordHeadingForStrike(Strike.ID)
         case headingCaptured(strikeId: Strike.ID, heading: Double, location: CLLocation)
         case cancelHeadingCapture
+        case strikeTapped(Strike.ID)
+        case dismissStrikeMap
         case locationPermissionResponse(CLAuthorizationStatus)
         case locationUpdated(CLLocation)
         case directionUpdated(heading: Double)
@@ -77,6 +80,18 @@ struct LightningFeature {
 
             case .cancelHeadingCapture:
                 state.strikeBeingRecordedForHeading = nil
+                return .none
+
+            case let .strikeTapped(id):
+                // Only show map if the strike has location data
+                if let strike = state.strikes.first(where: { $0.id == id }),
+                   strike.estimatedStrikeLocation != nil {
+                    state.showingStrikeMap = true
+                }
+                return .none
+
+            case .dismissStrikeMap:
+                state.showingStrikeMap = false
                 return .none
 
             case let .locationPermissionResponse(status):
