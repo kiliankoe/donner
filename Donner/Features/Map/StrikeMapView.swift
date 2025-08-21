@@ -56,6 +56,11 @@ struct StrikeMapView: View {
     strikesWithLocation.last
   }
 
+  private var strikeText: String {
+    let count = strikesWithLocation.count
+    return "\(count) \(count == 1 ? "strike" : "strikes") recorded"
+  }
+
   var body: some View {
     ZStack {
       // Using MapKit's UIViewRepresentable for better control
@@ -73,7 +78,7 @@ struct StrikeMapView: View {
               .font(.title2.weight(.bold))
               .foregroundStyle(Color.donnerTextPrimary)
 
-            Text("\(strikesWithLocation.count) strikes recorded")
+            Text(strikeText)
               .font(.subheadline)
               .foregroundStyle(Color.donnerTextSecondary)
           }
