@@ -1,5 +1,5 @@
 // MARK: - Idle View
-"tap_when_see_lightning" = "Tippe hier wenn du einen Blitz siehst";
+"tap_when_see_lightning" = "Tippe hier wenn's blitzt";
 "i_saw_flash" = "Blitz gesehen!";
 
 // MARK: - Active Tracking View
@@ -23,7 +23,7 @@
 "your_location" = "Dein Standort";
 
 // MARK: - Heading Capture View
-"point_toward_lightning" = "Richtung des Blitzeinschlags";
+"point_toward_lightning" = "Wo war der Blitzeinschlag?";
 "heading_capture_instruction" = "Halte dein Gerät in die Richtung, in der du den Blitz gesehen hast";
 "km_away" = "%.1f km entfernt";
 "record" = "Speichern";

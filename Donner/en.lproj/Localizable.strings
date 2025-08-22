@@ -23,7 +23,7 @@
 "your_location" = "Your Location";
 
 // MARK: - Heading Capture View
-"point_toward_lightning" = "Point Toward Lightning";
+"point_toward_lightning" = "Where did it strike?";
 "heading_capture_instruction" = "Hold your device steady and aim it in the direction where you saw the lightning strike";
 "km_away" = "%.1f km away";
 "record" = "Record";
