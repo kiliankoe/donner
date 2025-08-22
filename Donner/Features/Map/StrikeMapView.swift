@@ -94,7 +94,7 @@ struct StrikeMapView: View {
             dismiss()
           } label: {
             Image(systemName: "xmark.circle.fill")
-              .font(.title2)
+              .font(.largeTitle)
               .foregroundStyle(Color.donnerTextSecondary, Color.donnerCardBackground)
           }
         }
