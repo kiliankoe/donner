@@ -16,14 +16,9 @@ struct StormDivider: View {
         )
         .frame(height: 1)
 
-      HStack(spacing: 4) {
-        Image(systemName: "cloud.bolt.fill")
-          .font(.caption2)
-        Text("new_storm")
-          .font(.caption2)
-          .fontWeight(.medium)
-      }
-      .foregroundStyle(Color.donnerTextSecondary.opacity(0.7))
+      Image(systemName: "cloud.bolt.fill")
+        .font(.caption2)
+        .foregroundStyle(Color.donnerTextSecondary.opacity(0.7))
 
       Rectangle()
         .fill(

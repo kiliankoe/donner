@@ -11,9 +11,6 @@
 // MARK: - Strikes List
 "recent_strikes" = "Letzte Einschläge";
 
-// MARK: - Storm Divider
-"new_storm" = "Neues Gewitter";
-
 // MARK: - Strike Map View
 "storm_track" = "Gewitterverlauf";
 "strike_singular" = "Einschlag";

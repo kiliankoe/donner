@@ -11,9 +11,6 @@
 // MARK: - Strikes List
 "recent_strikes" = "Recent Strikes";
 
-// MARK: - Storm Divider
-"new_storm" = "New Storm";
-
 // MARK: - Strike Map View
 "storm_track" = "Storm Track";
 "strike_singular" = "strike";
