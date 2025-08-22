@@ -24,7 +24,7 @@ struct HeadingCaptureView: View {
       LinearGradient.donnerBackgroundGradient
         .ignoresSafeArea()
 
-      VStack(spacing: 32) {
+      VStack(spacing: 40) {
         VStack(spacing: 12) {
           Text("point_toward_lightning")
             .font(.title2.weight(.semibold))
@@ -82,25 +82,8 @@ struct HeadingCaptureView: View {
           .rotationEffect(Angle(degrees: -animatedHeading))
         }
 
-        // Strike info
-        VStack(spacing: 8) {
-          if let distance = store.strike.distanceInKilometers {
-            HStack {
-              Image(systemName: "bolt.fill")
-                .foregroundStyle(Color.donnerLightning)
-              Text(
-                String(
-                  format: NSLocalizedString("km_away", comment: "Distance format"),
-                  distance)
-              )
-              .font(.subheadline)
-              .foregroundStyle(Color.donnerTextSecondary)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(Color.donnerCardBackground)
-            .clipShape(Capsule())
-          }
+        if !store.isSimulator {
+          HeadingAccuracyIndicator(accuracyLevel: store.headingAccuracyLevel)
         }
 
         // Action buttons

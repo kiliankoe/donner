@@ -10,6 +10,7 @@ struct HeadingCaptureFeature {
     var currentHeading: Double = 0
     var userLocation: CLLocation?
     var isCalibrated = false
+    var headingAccuracy: CLLocationDirection = -1
     var isLocationAuthorized = false
 
     var isSimulator: Bool {
@@ -19,6 +20,25 @@ struct HeadingCaptureFeature {
         return false
       #endif
     }
+
+    var headingAccuracyLevel: HeadingAccuracyLevel {
+      if headingAccuracy < 0 {
+        return .uncalibrated
+      } else if headingAccuracy <= 15 {
+        return .good
+      } else if headingAccuracy <= 30 {
+        return .fair
+      } else {
+        return .poor
+      }
+    }
+  }
+
+  enum HeadingAccuracyLevel {
+    case uncalibrated
+    case poor
+    case fair
+    case good
   }
 
   enum Action {
@@ -77,6 +97,7 @@ struct HeadingCaptureFeature {
       case .locationManager(.didUpdateHeading(let heading)):
         state.currentHeading =
           heading.trueHeading >= 0 ? heading.trueHeading : heading.magneticHeading
+        state.headingAccuracy = heading.headingAccuracy
         state.isCalibrated = heading.headingAccuracy >= 0
         return .none
 

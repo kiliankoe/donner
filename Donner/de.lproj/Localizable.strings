@@ -27,6 +27,11 @@
 "heading_capture_instruction" = "Halte dein Gerät in die Richtung, in der du den Blitz gesehen hast";
 "km_away" = "%.1f km entfernt";
 "record" = "Speichern";
+"heading_accuracy_good" = "Kompass kalibriert";
+"heading_accuracy_fair" = "Kompass-Genauigkeit ausreichend";
+"heading_accuracy_poor" = "Von Störquellen entfernen";
+"heading_accuracy_uncalibrated" = "Kompass kalibrieren";
+"heading_calibration_instructions" = "Versuche dein Gerät in einer 8er-Bewegung zu schwenken";
 
 // MARK: - Direction Recording Tip
 "record_lightning_direction" = "Blitzrichtung aufzeichnen";

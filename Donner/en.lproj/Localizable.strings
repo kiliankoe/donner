@@ -27,6 +27,11 @@
 "heading_capture_instruction" = "Hold your device steady and aim it in the direction where you saw the lightning strike";
 "km_away" = "%.1f km away";
 "record" = "Record";
+"heading_accuracy_good" = "Compass calibrated";
+"heading_accuracy_fair" = "Compass accuracy fair";
+"heading_accuracy_poor" = "Move away from interference";
+"heading_accuracy_uncalibrated" = "Calibrate compass";
+"heading_calibration_instructions" = "Try moving your device in a figure-8 pattern";
 
 // MARK: - Direction Recording Tip
 "record_lightning_direction" = "Record Lightning Direction";
