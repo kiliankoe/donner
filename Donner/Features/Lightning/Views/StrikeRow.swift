@@ -110,26 +110,6 @@ struct StrikeRow: View {
 
         Spacer()
 
-        if !hasLocation && strike.distance != nil {
-          Button {
-            store.send(.recordHeadingForStrike(strike.id))
-            directionTip.invalidate(reason: .actionPerformed)
-          } label: {
-            Image(systemName: "location.north.line.fill")
-              .font(.title3)
-              .foregroundStyle(LinearGradient.donnerLightningGradient)
-              .padding(8)
-              .background(Color.donnerCardBackground.opacity(0.5))
-              .clipShape(Circle())
-              .overlay(
-                Circle()
-                  .stroke(Color.donnerLightningGlow.opacity(0.2), lineWidth: 1)
-              )
-          }
-          .buttonStyle(.plain)
-          .popoverTip(directionTip, arrowEdge: .trailing)
-        }
-
         if strike.distance != nil {
           VStack(alignment: .trailing, spacing: 2) {
             Text(secondaryDistanceText.components(separatedBy: " ").first ?? "-")
@@ -153,9 +133,13 @@ struct StrikeRow: View {
             ? Color.donnerLightningGlow.opacity(0.3) : Color.donnerLightningGlow.opacity(0.1),
           lineWidth: 1)
     )
+    .popoverTip(!hasLocation && strike.distance != nil ? directionTip : nil, arrowEdge: .top)
     .onTapGesture {
       if hasLocation {
         store.send(.strikeTapped(strike.id))
+      } else if strike.distance != nil {
+        store.send(.recordHeadingForStrike(strike.id))
+        directionTip.invalidate(reason: .actionPerformed)
       }
     }
   }

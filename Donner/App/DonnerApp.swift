@@ -8,7 +8,6 @@ import TipKit
 struct DonnerApp: App {
   static let store = Store(initialState: AppFeature.State()) {
     AppFeature()
-//      ._printChanges()
   }
 
   init() {
@@ -20,6 +19,10 @@ struct DonnerApp: App {
         print("Failed to initialize database: \(error)")
       }
     }
+
+    //    #if DEBUG
+    //    try? Tips.resetDatastore()
+    //    #endif
 
     try? Tips.configure([
       .displayFrequency(.immediate),
