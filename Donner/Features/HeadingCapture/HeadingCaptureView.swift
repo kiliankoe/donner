@@ -53,11 +53,11 @@ struct HeadingCaptureView: View {
 
           // Center heading label
           VStack(spacing: 8) {
-            Text("\(Int(store.currentHeading))°")
+            Text(compassDirection(from: store.currentHeading))
               .font(.system(size: 48, weight: .bold, design: .monospaced))
               .foregroundStyle(LinearGradient.donnerLightningGradient)
 
-            Text(compassDirection(from: store.currentHeading))
+            Text("\(Int(store.currentHeading))°")
               .font(.headline)
               .foregroundStyle(Color.donnerTextSecondary)
           }
