@@ -353,6 +353,7 @@
 				DEVELOPMENT_TEAM = HU85FER47E;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
@@ -384,6 +385,7 @@
 				DEVELOPMENT_TEAM = HU85FER47E;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.weather";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Donner needs your location to estimate where lightning strikes occurred based on the direction you point your device.";
