@@ -29,6 +29,8 @@ struct IdleView: View {
               .frame(width: 160, height: 160)
               .blur(radius: 10)
 
+            ElectricSparkEffect(trigger: sparkTrigger)
+
             Image(systemName: "bolt.fill")
               .font(.system(size: 80))
               .foregroundStyle(LinearGradient.donnerLightningGradient)
@@ -41,8 +43,6 @@ struct IdleView: View {
               .onTapGesture {
                 playSparkEffect()
               }
-
-            ElectricSparkEffect(trigger: sparkTrigger)
           }
 
           Text("tap_when_see_lightning")
