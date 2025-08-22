@@ -21,7 +21,7 @@ struct StrikesList: View {
           ForEach(Array(store.strikes.enumerated()), id: \.element.id) { index, strike in
             VStack(spacing: 0) {
               StrikeRow(strike: strike, store: store)
-              
+
               // Show divider after this strike if more than an hour to the next older strike
               if index < store.strikes.count - 1 {
                 let olderStrike = store.strikes[index + 1]

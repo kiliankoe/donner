@@ -80,6 +80,10 @@ struct ActiveTrackingView: View {
 
       VStack(spacing: 16) {
         Button {
+          let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+          impactFeedback.prepare()
+          impactFeedback.impactOccurred()
+
           store.send(.thunderButtonTapped)
         } label: {
           HStack {
@@ -97,6 +101,9 @@ struct ActiveTrackingView: View {
         }
 
         Button {
+          let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+          impactFeedback.impactOccurred()
+
           store.send(.resetButtonTapped)
         } label: {
           Text("cancel")

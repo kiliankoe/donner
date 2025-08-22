@@ -4,6 +4,8 @@ import SwiftUI
 struct IdleView: View {
   let store: StoreOf<LightningFeature>
   @State private var iconRotation = false
+  @State private var sparkTrigger = 0
+  @State private var iconScale: CGFloat = 1.0
 
   var body: some View {
     VStack(spacing: 32) {
@@ -30,8 +32,15 @@ struct IdleView: View {
             .foregroundStyle(LinearGradient.donnerLightningGradient)
             .glow(radius: 20)
             .rotationEffect(.degrees(iconRotation ? 5 : -5))
+            .scaleEffect(iconScale)
             .animation(
-              .easeInOut(duration: 3).repeatForever(autoreverses: true), value: iconRotation)
+              .easeInOut(duration: 3).repeatForever(autoreverses: true), value: iconRotation
+            )
+            .onTapGesture {
+              playSparkEffect()
+            }
+
+          ElectricSparkEffect(trigger: sparkTrigger)
         }
 
         Text("tap_when_see_lightning")
@@ -40,7 +49,7 @@ struct IdleView: View {
       }
 
       Button {
-        store.send(.lightningButtonTapped)
+        startLightningTracking()
       } label: {
         HStack {
           Image(systemName: "bolt.fill")
@@ -60,5 +69,40 @@ struct IdleView: View {
     .onAppear {
       iconRotation = true
     }
+  }
+
+  private func playSparkEffect() {
+    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
+    impactFeedback.prepare()
+    impactFeedback.impactOccurred()
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      impactFeedback.impactOccurred()
+    }
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+      let lightFeedback = UIImpactFeedbackGenerator(style: .light)
+      lightFeedback.impactOccurred()
+    }
+
+    // Visual effects - increment to always trigger onChange
+    sparkTrigger += 1
+
+    withAnimation(.easeInOut(duration: 0.1)) {
+      iconScale = 1.2
+    }
+
+    withAnimation(.easeInOut(duration: 0.1).delay(0.1)) {
+      iconScale = 1.0
+    }
+  }
+
+  private func startLightningTracking() {
+    let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+    impactFeedback.prepare()
+    impactFeedback.impactOccurred()
+
+    // Send action to store
+    store.send(.lightningButtonTapped)
   }
 }
