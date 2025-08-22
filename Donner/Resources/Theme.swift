@@ -9,6 +9,7 @@ extension Color {
   static let donnerTextPrimary = Color.white
   static let donnerTextSecondary = Color(white: 0.7)
   static let donnerCardBackground = Color(red: 0.18, green: 0.19, blue: 0.24).opacity(0.8)
+  static let donnerSurfaceSecondary = Color(red: 0.22, green: 0.23, blue: 0.28).opacity(0.6)
 }
 
 extension LinearGradient {

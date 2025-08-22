@@ -41,3 +41,10 @@
 "compass_sw" = "SW";
 "compass_w" = "W";
 "compass_nw" = "NW";
+
+// MARK: - Info View
+"version_format" = "Version %@ (%@)";
+"open_source" = "Open Source";
+"mastodon" = "Mastodon";
+"email" = "E-Mail";
+"built_with_love" = "Built with 💛 in Dresden, Germany";
