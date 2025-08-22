@@ -7,6 +7,8 @@ struct HeadingCaptureView: View {
   let onRecordHeading: (Double, CLLocation) -> Void
   let onCancel: () -> Void
 
+  @State private var animatedHeading: Double = 0
+
   private var canRecord: Bool {
     #if targetEnvironment(simulator)
       // In simulator, only need location
@@ -74,11 +76,10 @@ struct HeadingCaptureView: View {
               .foregroundStyle(
                 defaultValue == "N" ? Color.donnerLightning : Color.donnerTextSecondary
               )
-              .rotationEffect(.degrees(store.currentHeading))
+              .rotationEffect(Angle(degrees: animatedHeading))
               .offset(x: xOffset, y: yOffset)
           }
-          .rotationEffect(.degrees(-store.currentHeading))
-          .animation(.spring(response: 0.5, dampingFraction: 0.8), value: store.currentHeading)
+          .rotationEffect(Angle(degrees: -animatedHeading))
         }
 
         // Strike info
@@ -143,9 +144,19 @@ struct HeadingCaptureView: View {
     }
     .onAppear {
       store.send(.onAppear)
+      animatedHeading = store.currentHeading
     }
     .onDisappear {
       store.send(.onDisappear)
+    }
+    .onChange(of: store.currentHeading) { oldValue, newValue in
+      // Calculate the shortest rotation path so the ring doesn't wildly animate when crossing from 359º to 0º
+      let delta = newValue - oldValue
+      let normalizedDelta = delta > 180 ? delta - 360 : (delta < -180 ? delta + 360 : delta)
+
+      withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+        animatedHeading += normalizedDelta
+      }
     }
   }
 
