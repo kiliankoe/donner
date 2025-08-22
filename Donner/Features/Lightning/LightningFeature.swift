@@ -78,6 +78,7 @@ struct LightningFeature {
     case thunderButtonTapped
     case resetButtonTapped
     case deleteStrike(Strike.ID)
+    case clearStrikeLocationData(Strike.ID)
     case recordHeadingForStrike(Strike.ID)
     case headingCaptured(strikeId: Strike.ID, heading: Double, location: CLLocation)
     case cancelHeadingCapture
@@ -133,6 +134,24 @@ struct LightningFeature {
               sql: "DELETE FROM persistentStrike WHERE id = ?",
               arguments: [id.uuidString]
             )
+          }
+        }
+
+      case .clearStrikeLocationData(let id):
+        return .run { _ in
+          try await database.write { db in
+            if let persistentStrike =
+              try PersistentStrike
+              .fetchOne(
+                db, sql: "SELECT * FROM persistentStrike WHERE id = ?",
+                arguments: [id.uuidString])
+            {
+              var updatedStrike = persistentStrike.toStrike()
+              updatedStrike.direction = nil
+              updatedStrike.userLocation = nil
+              let updatedPersistentStrike = PersistentStrike(from: updatedStrike)
+              try updatedPersistentStrike.update(db)
+            }
           }
         }
 

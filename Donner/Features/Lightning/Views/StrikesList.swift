@@ -37,11 +37,20 @@ struct StrikesList: View {
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
             .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
-          }
-          .onDelete { indexSet in
-            for index in indexSet {
-              if index < store.strikes.count {
-                store.send(.deleteStrike(store.strikes[index].id))
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+              Button(role: .destructive) {
+                store.send(.deleteStrike(strike.id))
+              } label: {
+                Label("delete", systemImage: "trash")
+              }
+              
+              if strike.estimatedStrikeLocation != nil {
+                Button {
+                  store.send(.clearStrikeLocationData(strike.id))
+                } label: {
+                  Label("clear_location", systemImage: "location.slash")
+                }
+                .tint(.orange)
               }
             }
           }

@@ -10,6 +10,8 @@
 
 // MARK: - Strikes List
 "recent_strikes" = "Recent Strikes";
+"delete" = "Delete";
+"clear_location" = "Clear Location";
 
 // MARK: - Strike Map View
 "storm_track" = "Storm Track";

@@ -10,6 +10,8 @@
 
 // MARK: - Strikes List
 "recent_strikes" = "Letzte Einschläge";
+"delete" = "Löschen";
+"clear_location" = "Standort entfernen";
 
 // MARK: - Strike Map View
 "storm_track" = "Gewitterverlauf";
