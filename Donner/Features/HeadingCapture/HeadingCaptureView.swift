@@ -74,10 +74,10 @@ struct HeadingCaptureView: View {
               .foregroundStyle(
                 defaultValue == "N" ? Color.donnerLightning : Color.donnerTextSecondary
               )
-              .rotationEffect(.degrees(-store.currentHeading))
+              .rotationEffect(.degrees(store.currentHeading))
               .offset(x: xOffset, y: yOffset)
           }
-          .rotationEffect(.degrees(store.currentHeading))
+          .rotationEffect(.degrees(-store.currentHeading))
           .animation(.spring(response: 0.5, dampingFraction: 0.8), value: store.currentHeading)
         }
 
