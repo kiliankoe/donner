@@ -64,14 +64,9 @@ struct StrikeRow: View {
   var body: some View {
     ZStack {
       // Layer 1: Map background (if available)
-      if let strikeLocation = strike.estimatedStrikeLocation,
-        let userLocation = strike.userLocation
-      {
-        StrikeMapBackground(
-          strikeLocation: strikeLocation,
-          userLocation: userLocation
-        )
-        .opacity(0.3)
+      if let strikeLocation = strike.estimatedStrikeLocation {
+        StrikeMapBackground(strikeLocation: strikeLocation)
+          .opacity(0.3)
 
         // Layer 2: Gradient overlay for better text contrast (only when map is shown)
         LinearGradient(
@@ -168,53 +163,42 @@ struct StrikeRow: View {
 
 struct StrikeMapBackground: View {
   let strikeLocation: CLLocation
-  let userLocation: CLLocation
 
-  @State private var region: MKCoordinateRegion
+  @State private var cameraPosition: MapCameraPosition
 
-  init(strikeLocation: CLLocation, userLocation: CLLocation) {
+  init(strikeLocation: CLLocation) {
     self.strikeLocation = strikeLocation
-    self.userLocation = userLocation
 
-    // Calculate region to show both points
-    let midLat = (strikeLocation.coordinate.latitude + userLocation.coordinate.latitude) / 2
-    let midLon = (strikeLocation.coordinate.longitude + userLocation.coordinate.longitude) / 2
-    let latDelta = abs(strikeLocation.coordinate.latitude - userLocation.coordinate.latitude) * 2.5
-    let lonDelta =
-      abs(strikeLocation.coordinate.longitude - userLocation.coordinate.longitude) * 2.5
+    // Offset the camera center to the left so the strike appears on the right
+    let offsetLongitude = strikeLocation.coordinate.longitude - 0.005
+    let offsetCenter = CLLocationCoordinate2D(
+      latitude: strikeLocation.coordinate.latitude,
+      longitude: offsetLongitude
+    )
 
-    self._region = State(
-      initialValue: MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: midLat, longitude: midLon),
-        span: MKCoordinateSpan(
-          latitudeDelta: max(latDelta, 0.01),
-          longitudeDelta: max(lonDelta, 0.01)
+    self._cameraPosition = State(
+      initialValue: .region(
+        MKCoordinateRegion(
+          center: offsetCenter,
+          latitudinalMeters: 800,
+          longitudinalMeters: 800
         )
-      ))
+      )
+    )
   }
 
   var body: some View {
-    Map(
-      coordinateRegion: .constant(region),
-      annotationItems: [
-        StrikeMapAnnotation(coordinate: strikeLocation.coordinate, type: .strike),
-        StrikeMapAnnotation(coordinate: userLocation.coordinate, type: .user),
-      ]
-    ) { item in
-      MapMarker(coordinate: item.coordinate, tint: item.type == .strike ? .yellow : .blue)
+    Map(position: .constant(cameraPosition)) {
+      Annotation("", coordinate: strikeLocation.coordinate) {
+        Image(systemName: "bolt.fill")
+          .foregroundStyle(.yellow)
+          .font(.caption)
+          .padding(4)
+          .background(Circle().fill(.black.opacity(0.5)))
+      }
     }
+    .mapStyle(.standard(elevation: .flat))
     .allowsHitTesting(false)
     .colorScheme(.dark)
-  }
-}
-
-struct StrikeMapAnnotation: Identifiable {
-  let id = UUID()
-  let coordinate: CLLocationCoordinate2D
-  let type: AnnotationType
-
-  enum AnnotationType {
-    case strike
-    case user
   }
 }
