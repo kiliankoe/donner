@@ -95,12 +95,6 @@ struct StrikeRow: View {
             Text(strike.lightningTime, format: .dateTime.hour().minute().second())
               .font(.headline.monospacedDigit())
               .foregroundStyle(Color.donnerTextPrimary)
-
-            if hasLocation {
-              Image(systemName: "location.fill")
-                .font(.caption2)
-                .foregroundStyle(Color.donnerAccent)
-            }
           }
 
           if strike.distance != nil {
