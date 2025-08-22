@@ -24,11 +24,6 @@ struct HeadingCaptureView: View {
 
       VStack(spacing: 32) {
         VStack(spacing: 12) {
-          Image(systemName: "location.north.line.fill")
-            .font(.largeTitle)
-            .foregroundStyle(LinearGradient.donnerLightningGradient)
-            .glow()
-
           Text("point_toward_lightning")
             .font(.title2.weight(.semibold))
             .foregroundStyle(Color.donnerTextPrimary)
@@ -48,12 +43,13 @@ struct HeadingCaptureView: View {
             .frame(width: 240, height: 240)
 
           // Direction indicator
-          Circle()
-            .fill(LinearGradient.donnerLightningGradient)
-            .frame(width: 20, height: 20)
-            .offset(y: -110)
+          Image(systemName: "location.north.fill")
+            .foregroundStyle(LinearGradient.donnerLightningGradient)
+            .glow()
+            .font(.system(size: 30))
+            .offset(y: -95)
 
-          // Center compass
+          // Center heading label
           VStack(spacing: 8) {
             Text("\(Int(store.currentHeading))°")
               .font(.system(size: 48, weight: .bold, design: .monospaced))
