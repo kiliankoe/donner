@@ -52,11 +52,6 @@ struct HeadingCaptureView: View {
             .fill(LinearGradient.donnerLightningGradient)
             .frame(width: 20, height: 20)
             .offset(y: -110)
-            .rotationEffect(.degrees(store.currentHeading))
-            #if targetEnvironment(simulator)
-              .opacity(0.8)
-            #endif
-            .animation(.spring(response: 0.5, dampingFraction: 0.8), value: store.currentHeading)
 
           // Center compass
           VStack(spacing: 8) {
@@ -83,8 +78,11 @@ struct HeadingCaptureView: View {
               .foregroundStyle(
                 defaultValue == "N" ? Color.donnerLightning : Color.donnerTextSecondary
               )
+              .rotationEffect(.degrees(-store.currentHeading))
               .offset(x: xOffset, y: yOffset)
           }
+          .rotationEffect(.degrees(store.currentHeading))
+          .animation(.spring(response: 0.5, dampingFraction: 0.8), value: store.currentHeading)
         }
 
         // Strike info
