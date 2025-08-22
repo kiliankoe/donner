@@ -25,19 +25,51 @@ struct LightningFeature {
     var showingStrikeMap = false
     var selectedStrikeForMap: Strike.ID?
 
-    // Get strikes within an hour of the selected strike for map display
+    // Get all strikes that belong to the same storm as the selected strike
     var strikesForMap: [Strike] {
       guard let selectedId = selectedStrikeForMap,
         let selectedStrike = strikes.first(where: { $0.id == selectedId })
       else { return [] }
 
-      let oneHour: TimeInterval = 3600
-      let minTime = selectedStrike.lightningTime.addingTimeInterval(-oneHour)
-      let maxTime = selectedStrike.lightningTime.addingTimeInterval(oneHour)
+      // Find the storm group this strike belongs to
+      var stormStrikes: [Strike] = [selectedStrike]
+      let sortedStrikes = strikes.sorted { $0.lightningTime < $1.lightningTime }
 
-      return strikes.filter { strike in
-        strike.lightningTime >= minTime && strike.lightningTime <= maxTime
+      guard let selectedIndex = sortedStrikes.firstIndex(where: { $0.id == selectedId }) else {
+        return [selectedStrike]
       }
+
+      // Add newer strikes that are within 1 hour gaps
+      var currentIndex = selectedIndex + 1
+      while currentIndex < sortedStrikes.count {
+        let currentStrike = sortedStrikes[currentIndex]
+        let previousStrike = sortedStrikes[currentIndex - 1]
+        let timeDiff = currentStrike.lightningTime.timeIntervalSince(previousStrike.lightningTime)
+
+        if timeDiff <= 3600 {  // Within 1 hour of previous strike
+          stormStrikes.append(currentStrike)
+          currentIndex += 1
+        } else {
+          break  // Gap too large, different storm
+        }
+      }
+
+      // Add older strikes that are within 1 hour gaps
+      currentIndex = selectedIndex - 1
+      while currentIndex >= 0 {
+        let currentStrike = sortedStrikes[currentIndex]
+        let nextStrike = sortedStrikes[currentIndex + 1]
+        let timeDiff = nextStrike.lightningTime.timeIntervalSince(currentStrike.lightningTime)
+
+        if timeDiff <= 3600 {  // Within 1 hour gap
+          stormStrikes.append(currentStrike)
+          currentIndex -= 1
+        } else {
+          break  // Gap too large, different storm
+        }
+      }
+
+      return stormStrikes
     }
   }
 

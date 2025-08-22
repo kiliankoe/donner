@@ -16,6 +16,8 @@
 "strike_singular" = "strike";
 "strikes_plural" = "strikes";
 "recorded" = "recorded";
+"strikes_with_duration" = "%d %@ recorded (%d min total)";
+"min_total" = "min total";
 "latest_strike" = "Latest Strike";
 "previous" = "Previous";
 "your_location" = "Your Location";

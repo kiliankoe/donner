@@ -20,13 +20,13 @@ struct StrikesList: View {
         List {
           ForEach(Array(store.strikes.enumerated()), id: \.element.id) { index, strike in
             VStack(spacing: 0) {
-              // Show divider if more than an hour between this and next older strike
-              if index > 0 {
-                let previousStrike = store.strikes[index - 1]
-                let timeDifference = abs(
-                  previousStrike.lightningTime.timeIntervalSince(strike.lightningTime))
+              // Show divider if more than an hour between this and previous (older) strike
+              if index < store.strikes.count - 1 {
+                let olderStrike = store.strikes[index + 1]
+                let timeDifference = strike.lightningTime.timeIntervalSince(
+                  olderStrike.lightningTime)
 
-                if timeDifference > 3600 {  // More than 1 hour
+                if timeDifference > 3600 {  // More than 1 hour gap to older strike
                   StormDivider()
                     .padding(.vertical, 12)
                 }

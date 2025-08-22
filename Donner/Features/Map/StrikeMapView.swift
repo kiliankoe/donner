@@ -63,6 +63,22 @@ struct StrikeMapView: View {
       ? NSLocalizedString("strike_singular", comment: "Singular strike")
       : NSLocalizedString("strikes_plural", comment: "Plural strikes")
     let recorded = NSLocalizedString("recorded", comment: "Recorded")
+
+    if let firstStrike = strikesWithLocation.first,
+      let lastStrike = strikesWithLocation.last,
+      count > 1
+    {
+      let duration = lastStrike.lightningTime.timeIntervalSince(firstStrike.lightningTime)
+      let minutes = Int(duration / 60)
+      if minutes > 0 {
+        return String(
+          format: NSLocalizedString(
+            "strikes_with_duration", comment: "Strike count with storm duration"),
+          count, strikeWord, minutes
+        )
+      }
+    }
+
     return "\(count) \(strikeWord) \(recorded)"
   }
 

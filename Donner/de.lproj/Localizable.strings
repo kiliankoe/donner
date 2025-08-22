@@ -16,6 +16,8 @@
 "strike_singular" = "Einschlag";
 "strikes_plural" = "Einschläge";
 "recorded" = "aufgezeichnet";
+"strikes_with_duration" = "%d %@ aufgezeichnet (%d min insg.)";
+"min_total" = "min insg.";
 "latest_strike" = "Letzter Einschlag";
 "previous" = "Vorherige";
 "your_location" = "Dein Standort";
