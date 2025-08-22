@@ -1,7 +1,7 @@
 import CoreLocation
 import Foundation
 
-struct Strike: Equatable, Identifiable {
+struct Strike: Equatable, Identifiable, Hashable {
   let id: UUID
   let lightningTime: Date
   var lightningLocation: CLLocation?
