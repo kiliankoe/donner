@@ -7,6 +7,7 @@ struct IdleView: View {
   @State private var sparkTrigger = 0
   @State private var iconScale: CGFloat = 1.0
   @State private var showingInfo = false
+  @State private var lightningButtonTapped = false
 
   var body: some View {
     ZStack {
@@ -43,6 +44,7 @@ struct IdleView: View {
               .onTapGesture {
                 playSparkEffect()
               }
+              .sensoryFeedback(.impact(weight: .heavy, intensity: 1), trigger: sparkTrigger)
           }
 
           Text("tap_when_see_lightning")
@@ -52,7 +54,8 @@ struct IdleView: View {
         }
 
         Button {
-          startLightningTracking()
+          lightningButtonTapped.toggle()
+          store.send(.lightningButtonTapped)
         } label: {
           HStack {
             Image(systemName: "bolt.fill")
@@ -67,6 +70,7 @@ struct IdleView: View {
           .clipShape(RoundedRectangle(cornerRadius: 14))
           .glow(color: .donnerLightningGlow, radius: 10)
         }
+        .sensoryFeedback(.warning, trigger: lightningButtonTapped)
       }
       .padding(.horizontal, 24)
       .onAppear {
@@ -95,19 +99,6 @@ struct IdleView: View {
   }
 
   private func playSparkEffect() {
-    let impactFeedback = UIImpactFeedbackGenerator(style: .heavy)
-    impactFeedback.prepare()
-    impactFeedback.impactOccurred()
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-      impactFeedback.impactOccurred()
-    }
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-      let lightFeedback = UIImpactFeedbackGenerator(style: .light)
-      lightFeedback.impactOccurred()
-    }
-
     // Visual effects - increment to always trigger onChange
     sparkTrigger += 1
 
@@ -118,14 +109,5 @@ struct IdleView: View {
     withAnimation(.easeInOut(duration: 0.1).delay(0.1)) {
       iconScale = 1.0
     }
-  }
-
-  private func startLightningTracking() {
-    let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-    impactFeedback.prepare()
-    impactFeedback.impactOccurred()
-
-    // Send action to store
-    store.send(.lightningButtonTapped)
   }
 }

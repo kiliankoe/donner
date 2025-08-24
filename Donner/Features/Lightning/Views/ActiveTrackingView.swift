@@ -7,6 +7,8 @@ struct ActiveTrackingView: View {
   @State private var pulseAnimation = false
   @State private var elapsedTime: TimeInterval = 0
   @State private var timer: Timer?
+  @State private var thunderTapped = false
+  @State private var cancelTapped = false
 
   private var currentDistance: Double {
     return elapsedTime * 343.0  // Speed of sound in m/s
@@ -76,10 +78,7 @@ struct ActiveTrackingView: View {
 
       VStack(spacing: 16) {
         Button {
-          let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-          impactFeedback.prepare()
-          impactFeedback.impactOccurred()
-
+          thunderTapped.toggle()
           store.send(.thunderButtonTapped)
         } label: {
           HStack {
@@ -95,11 +94,10 @@ struct ActiveTrackingView: View {
           .clipShape(RoundedRectangle(cornerRadius: 12))
           .glow(color: .donnerLightningGlow, radius: 8)
         }
+        .sensoryFeedback(.success, trigger: thunderTapped)
 
         Button {
-          let impactFeedback = UIImpactFeedbackGenerator(style: .light)
-          impactFeedback.impactOccurred()
-
+          cancelTapped.toggle()
           store.send(.resetButtonTapped)
         } label: {
           Text("cancel")
@@ -110,6 +108,7 @@ struct ActiveTrackingView: View {
             .background(Color.donnerCardBackground)
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
+        .sensoryFeedback(.impact(weight: .medium, intensity: 0.8), trigger: cancelTapped)
       }
     }
     .padding(28)
