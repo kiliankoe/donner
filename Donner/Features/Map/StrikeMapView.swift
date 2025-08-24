@@ -321,8 +321,8 @@ class StrikeAnnotation: NSObject, MKAnnotation {
 
   var subtitle: String? {
     if let distance = strike.distanceInKilometers {
-      return String(
-        format: NSLocalizedString("km_away", comment: "Distance format"), distance)
+      let measurement = Measurement(value: distance, unit: UnitLength.kilometers)
+      return MeasurementFormatter.preciseDistance.string(from: measurement)
     }
     return nil
   }

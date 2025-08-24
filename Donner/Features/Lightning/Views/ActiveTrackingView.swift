@@ -8,13 +8,6 @@ struct ActiveTrackingView: View {
   @State private var elapsedTime: TimeInterval = 0
   @State private var timer: Timer?
 
-  let distanceFormatter: MeasurementFormatter = {
-    let formatter = MeasurementFormatter()
-    formatter.unitOptions = .naturalScale
-    formatter.numberFormatter.maximumFractionDigits = 1
-    return formatter
-  }()
-
   private var currentDistance: Double {
     return elapsedTime * 343.0  // Speed of sound in m/s
   }
@@ -24,15 +17,15 @@ struct ActiveTrackingView: View {
     let locale = Locale.current
     if locale.measurementSystem == .metric {
       if currentDistance < 1000 {
-        return distanceFormatter.string(from: measurement)
+        return MeasurementFormatter.distance.string(from: measurement)
       } else {
-        return distanceFormatter.string(from: measurement.converted(to: .kilometers))
+        return MeasurementFormatter.distance.string(from: measurement.converted(to: .kilometers))
       }
     } else {
       if currentDistance < 1609 {  // Less than 1 mile
-        return distanceFormatter.string(from: measurement.converted(to: .yards))
+        return MeasurementFormatter.distance.string(from: measurement.converted(to: .yards))
       } else {
-        return distanceFormatter.string(from: measurement.converted(to: .miles))
+        return MeasurementFormatter.distance.string(from: measurement.converted(to: .miles))
       }
     }
   }
@@ -67,9 +60,12 @@ struct ActiveTrackingView: View {
           }
 
           VStack(spacing: 8) {
-            Text(String(format: "%.2f s", elapsedTime))
-              .font(.system(size: 36).monospacedDigit().weight(.heavy))
-              .foregroundStyle(Color.donnerTextPrimary)
+            Text(
+              MeasurementFormatter.preciseTime.string(
+                from: Measurement(value: elapsedTime, unit: UnitDuration.seconds))
+            )
+            .font(.system(size: 36).monospacedDigit().weight(.heavy))
+            .foregroundStyle(Color.donnerTextPrimary)
 
             Text(formattedDistance)
               .font(.title3.weight(.semibold))

@@ -1,6 +1,4 @@
 import ComposableArchitecture
-import CoreLocation
-import MapKit
 import SwiftUI
 import TipKit
 
@@ -10,47 +8,35 @@ struct StrikeRow: View {
 
   private let directionTip = DirectionRecordingTip()
 
-  @State private var distanceFormatter: MeasurementFormatter = {
-    let formatter = MeasurementFormatter()
-    formatter.unitOptions = .naturalScale
-    formatter.numberFormatter.maximumFractionDigits = 1
-    return formatter
-  }()
-
-  @State private var shortDistanceFormatter: MeasurementFormatter = {
-    let formatter = MeasurementFormatter()
-    formatter.unitOptions = .providedUnit
-    formatter.numberFormatter.maximumFractionDigits = 0
-    return formatter
-  }()
-
-  private var primaryDistanceText: String {
+  private var secondaryDistanceLabel: String {
     guard let distance = strike.distance else { return "-" }
     let measurement = Measurement(value: distance, unit: UnitLength.meters)
 
     let locale = Locale.current
     if locale.measurementSystem == .metric {
-      return distanceFormatter.string(from: measurement.converted(to: .kilometers))
+      return MeasurementFormatter.preciseDistance.string(
+        from: measurement.converted(to: .kilometers))
     } else {
-      return distanceFormatter.string(from: measurement.converted(to: .miles))
+      return MeasurementFormatter.preciseDistance.string(from: measurement.converted(to: .miles))
     }
   }
 
-  private var secondaryDistanceText: String {
+  private var primaryDistanceLabel: String {
     guard let distance = strike.distance else { return "-" }
     let measurement = Measurement(value: distance, unit: UnitLength.meters)
 
     let locale = Locale.current
     if locale.measurementSystem == .metric {
-      return shortDistanceFormatter.string(from: measurement)
+      return MeasurementFormatter.distance.string(from: measurement)
     } else {
-      return shortDistanceFormatter.string(from: measurement.converted(to: .yards))
+      return MeasurementFormatter.distance.string(from: measurement.converted(to: .yards))
     }
   }
 
   private var durationText: String {
     guard let duration = strike.duration else { return "-" }
-    return String(format: "%.1f s", duration)
+    return MeasurementFormatter.duration.string(
+      from: Measurement(value: duration, unit: UnitDuration.seconds))
   }
 
   private var hasLocation: Bool {
@@ -65,7 +51,7 @@ struct StrikeRow: View {
     ZStack {
       // Layer 1: Map background (if available)
       if let strikeLocation = strike.estimatedStrikeLocation {
-        StrikeMapBackground(strikeLocation: strikeLocation)
+        StrikeRowMapBackground(strikeLocation: strikeLocation)
           .opacity(0.3)
 
         // Layer 2: Gradient overlay for better text contrast (only when map is shown)
@@ -94,7 +80,7 @@ struct StrikeRow: View {
 
           if strike.distance != nil {
             HStack(spacing: 8) {
-              Text(primaryDistanceText)
+              Text(secondaryDistanceLabel)
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Color.donnerAccent)
 
@@ -111,15 +97,10 @@ struct StrikeRow: View {
         Spacer()
 
         if strike.distance != nil {
-          VStack(alignment: .trailing, spacing: 2) {
-            Text(secondaryDistanceText.components(separatedBy: " ").first ?? "-")
-              .font(.title2.monospacedDigit().weight(.bold))
-              .foregroundStyle(LinearGradient.donnerLightningGradient)
-            Text(secondaryDistanceText.components(separatedBy: " ").last ?? "")
-              .font(.caption2)
-              .foregroundStyle(Color.donnerTextSecondary)
-          }
-          .frame(minWidth: 80, alignment: .trailing)
+          Text(primaryDistanceLabel)
+            .font(.title2.monospacedDigit().weight(.bold))
+            .foregroundStyle(LinearGradient.donnerLightningGradient)
+            .frame(minWidth: 80, alignment: .trailing)
         }
       }
       .padding(16)
@@ -142,47 +123,5 @@ struct StrikeRow: View {
         directionTip.invalidate(reason: .actionPerformed)
       }
     }
-  }
-}
-
-struct StrikeMapBackground: View {
-  let strikeLocation: CLLocation
-
-  @State private var cameraPosition: MapCameraPosition
-
-  init(strikeLocation: CLLocation) {
-    self.strikeLocation = strikeLocation
-
-    // Offset the camera center to the left so the strike appears on the right
-    let offsetLongitude = strikeLocation.coordinate.longitude - 0.005
-    let offsetCenter = CLLocationCoordinate2D(
-      latitude: strikeLocation.coordinate.latitude,
-      longitude: offsetLongitude
-    )
-
-    self._cameraPosition = State(
-      initialValue: .region(
-        MKCoordinateRegion(
-          center: offsetCenter,
-          latitudinalMeters: 800,
-          longitudinalMeters: 800
-        )
-      )
-    )
-  }
-
-  var body: some View {
-    Map(position: .constant(cameraPosition)) {
-      Annotation("", coordinate: strikeLocation.coordinate) {
-        Image(systemName: "bolt.fill")
-          .foregroundStyle(.yellow)
-          .font(.caption)
-          .padding(4)
-          .background(Circle().fill(.black.opacity(0.5)))
-      }
-    }
-    .mapStyle(.standard(elevation: .flat))
-    .allowsHitTesting(false)
-    .colorScheme(.dark)
   }
 }
