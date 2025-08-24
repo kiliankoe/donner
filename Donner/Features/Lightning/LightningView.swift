@@ -17,6 +17,7 @@ struct LightningView: View {
                 insertion: .scale.combined(with: .opacity),
                 removal: .scale.combined(with: .opacity)
               ))
+            .padding(.horizontal)
         } else {
           IdleView(store: store)
             .transition(
@@ -24,11 +25,12 @@ struct LightningView: View {
                 insertion: .scale.combined(with: .opacity),
                 removal: .scale.combined(with: .opacity)
               ))
+            .padding(.horizontal)
         }
 
         StrikesList(store: store)
       }
-      .padding()
+      .padding(.top)
     }
     .preferredColorScheme(.dark)
   }

@@ -40,7 +40,7 @@ struct StrikesList: View {
             .font(.headline)
             .foregroundStyle(Color.donnerTextPrimary)
         }
-        .padding(.horizontal, 4)
+        .padding(.horizontal)
 
         List {
           ForEach(listItems, id: \.self) { item in
@@ -66,6 +66,7 @@ struct StrikesList: View {
                     .tint(.orange)
                   }
                 }
+                .padding(.horizontal)
             case .divider:
               StormDivider()
                 .listRowBackground(Color.clear)
