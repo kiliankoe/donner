@@ -3,6 +3,12 @@ import SwiftUI
 struct InfoView: View {
   @Binding var isPresented: Bool
 
+  private var appDisplayName: String {
+    Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+      ?? Bundle.main.infoDictionary?["CFBundleName"] as? String
+      ?? "Donner"
+  }
+
   private var appVersion: String {
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
   }
@@ -20,7 +26,7 @@ struct InfoView: View {
             .foregroundStyle(LinearGradient.donnerLightningGradient)
             .glow(radius: 10)
 
-          Text("Donner")
+          Text(appDisplayName)
             .font(.largeTitle.weight(.bold))
             .foregroundStyle(Color.donnerTextPrimary)
 

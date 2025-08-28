@@ -1,6 +1,18 @@
 import SwiftUI
 
 struct StormDivider: View {
+  let date: Date
+
+  init(date: Date = Date()) {
+    self.date = date
+  }
+
+  private var relativeDate: String {
+    let formatter = RelativeDateTimeFormatter()
+    formatter.unitsStyle = .full
+    return formatter.localizedString(for: date, relativeTo: Date())
+  }
+
   var body: some View {
     HStack(spacing: 12) {
       Rectangle()
@@ -16,9 +28,13 @@ struct StormDivider: View {
         )
         .frame(height: 1)
 
-      Image(systemName: "cloud.bolt.fill")
-        .font(.caption2)
-        .foregroundStyle(Color.donnerTextSecondary.opacity(0.7))
+      HStack(spacing: 6) {
+        Image(systemName: "cloud.bolt.fill")
+          .font(.caption2)
+        Text(relativeDate)
+          .font(.caption2)
+          .foregroundStyle(Color.donnerTextSecondary.opacity(0.7))
+      }
 
       Rectangle()
         .fill(
@@ -37,7 +53,7 @@ struct StormDivider: View {
   }
 }
 
-#Preview{
+#Preview {
   ZStack {
     LinearGradient.donnerBackgroundGradient
       .ignoresSafeArea()
@@ -46,9 +62,14 @@ struct StormDivider: View {
       Text("Strike 1")
         .foregroundStyle(.white)
 
-      StormDivider()
+      StormDivider(date: Date().addingTimeInterval(-86400))  // Yesterday
 
       Text("Strike 2")
+        .foregroundStyle(.white)
+
+      StormDivider(date: Date().addingTimeInterval(-3600))  // 1 hour ago
+
+      Text("Strike 3")
         .foregroundStyle(.white)
     }
     .padding()

@@ -1,11 +1,9 @@
-// MARK: - Idle View
-"tap_when_see_lightning" = "Tippe hier wenn's blitzt";
+// MARK: - Lightning Tab
 "i_saw_flash" = "Blitz gesehen!";
 
 // MARK: - Active Tracking View
 "tracking_lightning_strike" = "Blitz wird verfolgt";
 "lightning_detected_at" = "Blitz erkannt um";
-"i_heard_thunder" = "Donner gehört!";
 "cancel" = "Abbrechen";
 
 // MARK: - Strikes List
@@ -19,7 +17,6 @@
 "strikes_plural" = "Einschläge";
 "recorded" = "aufgezeichnet";
 "strikes_with_duration" = "%d %@ aufgezeichnet (%d min insg.)";
-"min_total" = "min insg.";
 "latest_strike" = "Letzter Einschlag";
 "previous" = "Vorherige";
 "your_location" = "Dein Standort";
@@ -55,3 +52,21 @@
 "mastodon" = "Mastodon";
 "email" = "E-Mail";
 "built_with_love" = "Mit 💛 in Dresden gebaut";
+
+// MARK: - Tab Bar
+"tab_lightning" = "Blitz";
+"tab_strikes" = "Einschläge";
+"tab_map" = "Karte";
+
+// MARK: - Map Tab
+"no_storms_recorded" = "Keine Gewitter aufgezeichnet";
+"record_strikes_to_see_map" = "Zeichne Blitzeinschläge auf, um sie auf der Karte zu sehen";
+"storms_legend_title" = "Gewitter";
+"storm_age_recent" = "Aktuell";
+"storm_age_hours" = "Vor Stunden";
+"storm_age_old" = "Alt (>12h)";
+
+// MARK: - Strikes List Tab
+"strikes_navigation_title" = "Einschläge";
+"no_strikes_recorded" = "Keine Einschläge aufgezeichnet";
+"tap_lightning_tab_hint" = "Tippe auf den Blitz-Tab, um zu beginnen";

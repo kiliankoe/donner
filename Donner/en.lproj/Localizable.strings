@@ -1,11 +1,9 @@
-// MARK: - Idle View
-"tap_when_see_lightning" = "Tap when you see lightning";
+// MARK: - Lightning Tab
 "i_saw_flash" = "I saw a flash!";
 
 // MARK: - Active Tracking View
 "tracking_lightning_strike" = "Tracking Lightning Strike";
 "lightning_detected_at" = "Lightning detected at";
-"i_heard_thunder" = "I heard thunder!";
 "cancel" = "Cancel";
 
 // MARK: - Strikes List
@@ -19,7 +17,6 @@
 "strikes_plural" = "strikes";
 "recorded" = "recorded";
 "strikes_with_duration" = "%d %@ recorded (%d min total)";
-"min_total" = "min total";
 "latest_strike" = "Latest Strike";
 "previous" = "Previous";
 "your_location" = "Your Location";
@@ -55,3 +52,21 @@
 "mastodon" = "Mastodon";
 "email" = "E-Mail";
 "built_with_love" = "Built with 💛 in Dresden, Germany";
+
+// MARK: - Tab Bar
+"tab_lightning" = "Lightning";
+"tab_strikes" = "Strikes";
+"tab_map" = "Map";
+
+// MARK: - Map Tab
+"no_storms_recorded" = "No storms recorded";
+"record_strikes_to_see_map" = "Record lightning strikes to see them on the map";
+"storms_legend_title" = "Storms";
+"storm_age_recent" = "Recent";
+"storm_age_hours" = "Hours ago";
+"storm_age_old" = "Old (>12h)";
+
+// MARK: - Strikes List Tab
+"strikes_navigation_title" = "Strikes";
+"no_strikes_recorded" = "No strikes recorded";
+"tap_lightning_tab_hint" = "Tap the Lightning tab to start tracking";

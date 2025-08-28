@@ -31,54 +31,48 @@ struct StrikesList: View {
 
   var body: some View {
     if !store.strikes.isEmpty {
-      VStack(alignment: .leading, spacing: 16) {
-        HStack {
-          Image(systemName: "clock.arrow.circlepath")
-            .font(.callout)
-            .foregroundStyle(LinearGradient.donnerLightningGradient)
-          Text("recent_strikes")
-            .font(.headline)
-            .foregroundStyle(Color.donnerTextPrimary)
-        }
-        .padding(.horizontal)
-
-        List {
-          ForEach(listItems, id: \.self) { item in
-            switch item {
-            case .strike(let strike):
-              StrikeRow(strike: strike, store: store)
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                  Button(role: .destructive) {
-                    store.send(.deleteStrike(strike.id))
-                  } label: {
-                    Label("delete", systemImage: "trash")
-                  }
-
-                  if strike.estimatedStrikeLocation != nil {
-                    Button {
-                      store.send(.clearStrikeLocationData(strike.id))
-                    } label: {
-                      Label("clear_location", systemImage: "location.slash")
-                    }
-                    .tint(.orange)
-                  }
+      List {
+        ForEach(listItems, id: \.self) { item in
+          switch item {
+          case .strike(let strike):
+            StrikeRow(strike: strike, store: store)
+              .listRowBackground(Color.clear)
+              .listRowSeparator(.hidden)
+              .listRowInsets(EdgeInsets(top: 6, leading: 0, bottom: 6, trailing: 0))
+              .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(role: .destructive) {
+                  store.send(.deleteStrike(strike.id))
+                } label: {
+                  Label("delete", systemImage: "trash")
                 }
-                .padding(.horizontal)
-            case .divider:
-              StormDivider()
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .allowsHitTesting(false)
+
+                if strike.estimatedStrikeLocation != nil {
+                  Button {
+                    store.send(.clearStrikeLocationData(strike.id))
+                  } label: {
+                    Label("clear_location", systemImage: "location.slash")
+                  }
+                  .tint(.orange)
+                }
+              }
+              .padding(.horizontal)
+          case .divider(let id):
+            Group {
+              if let strike = store.strikes.first(where: { "\($0.id)-divider" == id }) {
+                StormDivider(date: strike.lightningTime)
+              } else {
+                StormDivider(date: Date())
+              }
             }
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+            .allowsHitTesting(false)
           }
         }
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
       }
+      .listStyle(.plain)
+      .scrollContentBackground(.hidden)
       .sheet(
         item: Binding(
           get: {
