@@ -37,7 +37,7 @@ struct StormDivider: View {
   }
 }
 
-#Preview {
+#Preview{
   ZStack {
     LinearGradient.donnerBackgroundGradient
       .ignoresSafeArea()

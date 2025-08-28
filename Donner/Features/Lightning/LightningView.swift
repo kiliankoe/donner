@@ -16,7 +16,8 @@ struct LightningView: View {
               .asymmetric(
                 insertion: .scale.combined(with: .opacity),
                 removal: .scale.combined(with: .opacity)
-              ))
+              )
+            )
             .padding(.horizontal)
         } else {
           IdleView(store: store)
@@ -24,7 +25,8 @@ struct LightningView: View {
               .asymmetric(
                 insertion: .scale.combined(with: .opacity),
                 removal: .scale.combined(with: .opacity)
-              ))
+              )
+            )
             .padding(.horizontal)
         }
 
