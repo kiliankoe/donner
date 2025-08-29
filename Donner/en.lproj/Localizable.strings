@@ -65,6 +65,8 @@
 "storm_age_recent" = "Recent";
 "storm_age_hours" = "Hours ago";
 "storm_age_old" = "Old (>12h)";
+"strike_distance_away" = "away";
+"strike_duration_label" = "Duration";
 
 // MARK: - Strikes List Tab
 "strikes_navigation_title" = "Strikes";

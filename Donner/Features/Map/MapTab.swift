@@ -298,13 +298,14 @@ struct StrikeDetailCallout: View {
           }
         }
         
-        if let distance = strike.distanceInKilometers {
+        if let distance = strike.distance {
           HStack(spacing: 4) {
             Image(systemName: "location.circle.fill")
               .font(.caption)
               .foregroundStyle(Color.donnerTextSecondary)
             
-            Text("\(distance, format: .number.precision(.fractionLength(1))) km away")
+            let measurement = Measurement(value: distance, unit: UnitLength.meters)
+            Text("\(MeasurementFormatter.distance.string(from: measurement)) \(Text("strike_distance_away", bundle: .main))")
               .font(.caption.monospacedDigit())
               .foregroundStyle(Color.donnerTextPrimary)
           }
@@ -316,7 +317,8 @@ struct StrikeDetailCallout: View {
               .font(.caption)
               .foregroundStyle(Color.donnerTextSecondary)
             
-            Text("\(duration, format: .number.precision(.fractionLength(1))) seconds")
+            let measurement = Measurement(value: duration, unit: UnitDuration.seconds)
+            Text(MeasurementFormatter.duration.string(from: measurement))
               .font(.caption.monospacedDigit())
               .foregroundStyle(Color.donnerTextPrimary)
           }

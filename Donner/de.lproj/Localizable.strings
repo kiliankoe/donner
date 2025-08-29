@@ -64,7 +64,9 @@
 "storms_legend_title" = "Gewitter";
 "storm_age_recent" = "Aktuell";
 "storm_age_hours" = "Vor Stunden";
-"storm_age_old" = "Alt (>12h)";
+"storm_age_old" = "Älter (>12h)";
+"strike_distance_away" = "entfernt";
+"strike_duration_label" = "Dauer";
 
 // MARK: - Strikes List Tab
 "strikes_navigation_title" = "Einschläge";
