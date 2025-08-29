@@ -36,10 +36,10 @@ struct MapFeature {
         Date().timeIntervalSince(endTime) / 3600
       }
 
-      // Calculate opacity based on age (0-24 hours maps to 1.0-0.3 opacity)
+      // Calculate opacity based on age (0-24 hours maps to 1.0-0.6 opacity)
       var opacity: Double {
         let maxAge: Double = 24  // hours
-        let minOpacity: Double = 0.3
+        let minOpacity: Double = 0.6
         let maxOpacity: Double = 1.0
 
         if ageInHours >= maxAge {
@@ -53,16 +53,16 @@ struct MapFeature {
       // Calculate color based on age
       var color: (red: Double, green: Double, blue: Double) {
         let opacity = self.opacity
-        // Interpolate from yellow (recent) to gray (old)
-        if opacity > 0.7 {
+        // Interpolate from yellow (recent) to muted yellow (old)
+        if opacity > 0.8 {
           // Recent: bright yellow
           return (red: 1.0, green: 0.85, blue: 0.3)
-        } else if opacity > 0.5 {
-          // Medium: orange-ish
-          return (red: 1.0, green: 0.7, blue: 0.4)
+        } else if opacity > 0.7 {
+          // Medium: slightly muted yellow
+          return (red: 1.0, green: 0.75, blue: 0.35)
         } else {
-          // Old: grayish
-          return (red: 0.7, green: 0.7, blue: 0.7)
+          // Old: muted yellow-gray (still visible)
+          return (red: 0.9, green: 0.8, blue: 0.5)
         }
       }
     }
