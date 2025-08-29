@@ -44,7 +44,6 @@ struct MapTab: View {
         MapCompass()
         MapScaleView()
       }
-      .ignoresSafeArea()
       .onAppear {
         setupInitialRegion()
       }
