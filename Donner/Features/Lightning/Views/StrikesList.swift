@@ -44,6 +44,7 @@ struct StrikesList: View {
                 } label: {
                   Label("delete", systemImage: "trash")
                 }
+                .tint(.red)
 
                 if strike.estimatedStrikeLocation != nil {
                   Button {
