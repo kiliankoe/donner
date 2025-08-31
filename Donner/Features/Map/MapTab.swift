@@ -13,7 +13,8 @@ struct MapTab: View {
       Map(position: $position, selection: $selectedStrike) {
         ForEach(allAnnotations) { item in
           Annotation(
-            item.strike.lightningTime.formatted(.dateTime.hour().minute()),
+            item.strike.lightningTime.formatted(
+              .dateTime.month(.abbreviated).day().hour().minute()),
             coordinate: item.coordinate
           ) {
             ZStack {
