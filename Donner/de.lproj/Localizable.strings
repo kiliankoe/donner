@@ -8,6 +8,8 @@
 
 // MARK: - Strikes List
 "recent_strikes" = "Letzte Einschläge";
+"last_strike" = "Letzter Einschlag";
+"record_direction" = "Richtung aufnehmen";
 "delete" = "Löschen";
 "clear_location" = "Standort entfernen";
 

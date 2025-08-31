@@ -5,6 +5,13 @@ import TipKit
 struct StrikeRow: View {
   let strike: Strike
   let store: StoreOf<LightningFeature>
+  let showTip: Bool
+
+  init(strike: Strike, store: StoreOf<LightningFeature>, showTip: Bool = true) {
+    self.strike = strike
+    self.store = store
+    self.showTip = showTip
+  }
 
   private let directionTip = DirectionRecordingTip()
 
@@ -114,7 +121,9 @@ struct StrikeRow: View {
             ? Color.donnerLightningGlow.opacity(0.3) : Color.donnerLightningGlow.opacity(0.1),
           lineWidth: 1)
     )
-    .popoverTip(!hasLocation && strike.distance != nil ? directionTip : nil, arrowEdge: .top)
+    .popoverTip(
+      showTip && !hasLocation && strike.distance != nil ? directionTip : nil, arrowEdge: .top
+    )
     .onTapGesture {
       if hasLocation {
         store.send(.strikeTapped(strike.id))

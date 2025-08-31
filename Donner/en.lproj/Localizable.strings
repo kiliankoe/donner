@@ -8,6 +8,8 @@
 
 // MARK: - Strikes List
 "recent_strikes" = "Recent Strikes";
+"last_strike" = "Last Strike";
+"record_direction" = "Record Direction";
 "delete" = "Delete";
 "clear_location" = "Clear Location";
 

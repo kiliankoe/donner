@@ -9,22 +9,33 @@ struct LightningTab: View {
       LinearGradient.donnerBackgroundGradient
         .ignoresSafeArea()
 
-      VStack {
+      VStack(spacing: 0) {
         HStack {
           Spacer()
           InfoIconButton()
         }
         .padding()
 
-        Spacer()
+        ZStack {
+          if store.isTracking {
+            TrackingButton(store: store)
+          } else {
+            RecordingButton(store: store)
+          }
 
-        if store.isTracking {
-          TrackingButton(store: store)
-        } else {
-          RecordingButton(store: store)
+          VStack {
+            Spacer()
+
+            if !store.isTracking, let lastStrike = store.strikes.first {
+              StrikeRow(strike: lastStrike, store: store, showTip: false)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.horizontal, 20)
+                .padding(.bottom, 40)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+          }
+          .animation(.easeOut(duration: 0.3), value: store.isTracking)
         }
-
-        Spacer()
       }
     }
   }
@@ -38,55 +49,46 @@ struct RecordingButton: View {
 
   var body: some View {
     GeometryReader { geometry in
-      let buttonSize = min(geometry.size.width, geometry.size.height) * 0.8
+      let buttonSize = min(geometry.size.width, geometry.size.height) * 0.65
 
-      VStack {
-        Spacer()
-        HStack {
-          Spacer()
-
-          Button {
-            lightningButtonTapped.toggle()
-            store.send(.lightningButtonTapped)
-          } label: {
-            ZStack {
+      Button {
+        lightningButtonTapped.toggle()
+        store.send(.lightningButtonTapped)
+      } label: {
+        ZStack {
+          Circle()
+            .fill(LinearGradient.donnerButtonGradient)
+            .frame(width: buttonSize, height: buttonSize)
+            .overlay(
               Circle()
-                .fill(LinearGradient.donnerButtonGradient)
-                .frame(width: buttonSize, height: buttonSize)
-                .overlay(
-                  Circle()
-                    .stroke(
-                      LinearGradient.donnerLightningGradient.opacity(0.3),
-                      lineWidth: 2
-                    )
+                .stroke(
+                  LinearGradient.donnerLightningGradient.opacity(0.3),
+                  lineWidth: 2
                 )
-                .glow(color: .donnerLightningGlow, radius: 30)
-                .scaleEffect(pulseAnimation ? 1.02 : 1.0)
-                .animation(
-                  .easeInOut(duration: 2).repeatForever(autoreverses: true),
-                  value: pulseAnimation
-                )
+            )
+            .glow(color: .donnerLightningGlow, radius: 30)
+            .scaleEffect(pulseAnimation ? 1.02 : 1.0)
+            .animation(
+              .easeInOut(duration: 2).repeatForever(autoreverses: true),
+              value: pulseAnimation
+            )
 
-              VStack(spacing: 20) {
-                Image(systemName: "bolt.fill")
-                  .font(.system(size: buttonSize * 0.25))
-                  .foregroundStyle(.black.opacity(0.8))
+          VStack(spacing: 20) {
+            Image(systemName: "bolt.fill")
+              .font(.system(size: buttonSize * 0.25))
+              .foregroundStyle(.black.opacity(0.8))
 
-                Text("i_saw_flash")
-                  .font(.system(size: buttonSize * 0.08).weight(.bold))
-                  .foregroundStyle(.black.opacity(0.8))
-              }
-
-              ElectricSparkEffect(trigger: sparkTrigger)
-                .scaleEffect(2.5)
-            }
+            Text("i_saw_flash")
+              .font(.system(size: buttonSize * 0.08).weight(.bold))
+              .foregroundStyle(.black.opacity(0.8))
           }
-          .sensoryFeedback(.warning, trigger: lightningButtonTapped)
 
-          Spacer()
+          ElectricSparkEffect(trigger: sparkTrigger)
+            .scaleEffect(2.5)
         }
-        Spacer()
       }
+      .sensoryFeedback(.warning, trigger: lightningButtonTapped)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
       .onAppear {
         pulseAnimation = true
       }
@@ -126,7 +128,7 @@ struct TrackingButton: View {
 
   var body: some View {
     GeometryReader { geometry in
-      let buttonSize = min(geometry.size.width, geometry.size.height) * 0.8
+      let buttonSize = min(geometry.size.width, geometry.size.height) * 0.65
 
       ZStack {
         Button {
@@ -184,7 +186,7 @@ struct TrackingButton: View {
           }
         }
         .sensoryFeedback(.success, trigger: thunderTapped)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
 
         VStack {
           Spacer()
@@ -201,7 +203,7 @@ struct TrackingButton: View {
               .clipShape(RoundedRectangle(cornerRadius: 8))
           }
           .sensoryFeedback(.impact(weight: .medium, intensity: 0.8), trigger: cancelTapped)
-          .padding(.bottom, 40)
+          .padding(.bottom, 20)
         }
       }
       .onAppear {
