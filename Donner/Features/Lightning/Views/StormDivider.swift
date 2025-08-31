@@ -8,9 +8,7 @@ struct StormDivider: View {
   }
 
   private var relativeDate: String {
-    let formatter = RelativeDateTimeFormatter()
-    formatter.unitsStyle = .full
-    return formatter.localizedString(for: date, relativeTo: Date())
+    date.relativeDayString()
   }
 
   var body: some View {

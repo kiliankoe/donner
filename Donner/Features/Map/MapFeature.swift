@@ -67,7 +67,7 @@ struct MapFeature {
       }
     }
 
-    // Group strikes into storms based on time proximity
+    // Group strikes into storms based on day groups (4am cutoff)
     var storms: [Storm] {
       guard !strikes.isEmpty else { return [] }
 
@@ -77,16 +77,14 @@ struct MapFeature {
 
       for strike in sortedStrikes {
         if let lastStrike = currentStormStrikes.last {
-          let timeDiff = strike.lightningTime.timeIntervalSince(lastStrike.lightningTime)
-
-          if timeDiff > 3600 {  // More than 1 hour gap
-            // Start a new storm
+          if !strike.lightningTime.belongsToSameDayGroup(as: lastStrike.lightningTime) {
+            // Different day group, start a new storm
             if !currentStormStrikes.isEmpty {
               storms.append(Storm(strikes: currentStormStrikes))
             }
             currentStormStrikes = [strike]
           } else {
-            // Add to current storm
+            // Same day group, add to current storm
             currentStormStrikes.append(strike)
           }
         } else {

@@ -15,12 +15,11 @@ struct StrikesList: View {
     for (index, strike) in store.strikes.enumerated() {
       items.append(.strike(strike))
 
-      // Add divider after this strike if more than an hour to the next older strike
+      // Add divider after this strike if it's in a different day group than the next older strike
       if index < store.strikes.count - 1 {
         let olderStrike = store.strikes[index + 1]
-        let timeDifference = strike.lightningTime.timeIntervalSince(olderStrike.lightningTime)
 
-        if timeDifference > 3600 {  // More than 1 hour gap to older strike
+        if !strike.lightningTime.belongsToSameDayGroup(as: olderStrike.lightningTime) {
           items.append(.divider(id: "\(strike.id)-divider"))
         }
       }
