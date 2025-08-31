@@ -10,6 +10,10 @@ extension Color {
   static let donnerTextSecondary = Color(white: 0.7)
   static let donnerCardBackground = Color(red: 0.18, green: 0.19, blue: 0.24).opacity(0.8)
   static let donnerSurfaceSecondary = Color(red: 0.22, green: 0.23, blue: 0.28).opacity(0.6)
+
+  static let donnerStrikeToday = Color(red: 1.0, green: 0.85, blue: 0.3)
+  static let donnerStrikeThisWeek = Color(red: 1.0, green: 0.75, blue: 0.35)
+  static let donnerStrikeOlder = Color(red: 0.9, green: 0.8, blue: 0.5)
 }
 
 extension LinearGradient {

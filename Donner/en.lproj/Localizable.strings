@@ -64,9 +64,9 @@
 "no_storms_recorded" = "No storms recorded";
 "record_strikes_to_see_map" = "Record lightning strikes to see them on the map";
 "storms_legend_title" = "Storms";
-"storm_age_recent" = "Recent";
-"storm_age_hours" = "Hours ago";
-"storm_age_old" = "Old (>12h)";
+"storm_age_today" = "Today";
+"storm_age_this_week" = "This week";
+"storm_age_older" = "Older";
 "strike_distance_away" = "away";
 "strike_duration_label" = "Duration";
 

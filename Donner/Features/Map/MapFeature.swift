@@ -2,6 +2,7 @@ import ComposableArchitecture
 import CoreLocation
 import Foundation
 import MapKit
+import SwiftUI
 
 @Reducer
 struct MapFeature {
@@ -32,37 +33,41 @@ struct MapFeature {
         strikes.map(\.lightningTime).max() ?? Date()
       }
 
-      var ageInHours: Double {
-        Date().timeIntervalSince(endTime) / 3600
+      var ageInDays: Int {
+        let calendar = Calendar.current
+        let now = Date()
+        let days = calendar.dateComponents([.day], from: endTime, to: now).day ?? 0
+        return days
       }
 
-      // Calculate opacity based on age (0-24 hours maps to 1.0-0.6 opacity)
+      var isToday: Bool {
+        Calendar.current.isDateInToday(endTime)
+      }
+
+      var isThisWeek: Bool {
+        let calendar = Calendar.current
+        let now = Date()
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) ?? now
+        return endTime >= weekAgo
+      }
+
       var opacity: Double {
-        let maxAge: Double = 24  // hours
-        let minOpacity: Double = 0.6
-        let maxOpacity: Double = 1.0
-
-        if ageInHours >= maxAge {
-          return minOpacity
+        if isToday {
+          return 1.0
+        } else if isThisWeek {
+          return 0.75
+        } else {
+          return 0.6
         }
-
-        let normalizedAge = ageInHours / maxAge
-        return maxOpacity - (normalizedAge * (maxOpacity - minOpacity))
       }
 
-      // Calculate color based on age
-      var color: (red: Double, green: Double, blue: Double) {
-        let opacity = self.opacity
-        // Interpolate from yellow (recent) to muted yellow (old)
-        if opacity > 0.8 {
-          // Recent: bright yellow
-          return (red: 1.0, green: 0.85, blue: 0.3)
-        } else if opacity > 0.7 {
-          // Medium: slightly muted yellow
-          return (red: 1.0, green: 0.75, blue: 0.35)
+      var color: Color {
+        if isToday {
+          return .donnerStrikeToday
+        } else if isThisWeek {
+          return .donnerStrikeThisWeek
         } else {
-          // Old: muted yellow-gray (still visible)
-          return (red: 0.9, green: 0.8, blue: 0.5)
+          return .donnerStrikeOlder
         }
       }
     }

@@ -19,13 +19,7 @@ struct MapTab: View {
           ) {
             ZStack {
               Circle()
-                .fill(
-                  Color(
-                    red: item.storm.color.red,
-                    green: item.storm.color.green,
-                    blue: item.storm.color.blue
-                  ).opacity(item.storm.opacity)
-                )
+                .fill(item.storm.color.opacity(item.storm.opacity))
                 .frame(width: 30, height: 30)
 
               Image(systemName: "bolt.fill")

@@ -9,27 +9,27 @@ struct StormLegend: View {
 
       HStack(spacing: 8) {
         Circle()
-          .fill(Color.donnerLightning)
+          .fill(Color.donnerStrikeToday)
           .frame(width: 12, height: 12)
-        Text("storm_age_recent")
+        Text("storm_age_today")
           .font(.caption2)
           .foregroundStyle(Color.donnerTextSecondary)
       }
 
       HStack(spacing: 8) {
         Circle()
-          .fill(Color.donnerLightning.opacity(0.5))
+          .fill(Color.donnerStrikeThisWeek.opacity(0.75))
           .frame(width: 12, height: 12)
-        Text("storm_age_hours")
+        Text("storm_age_this_week")
           .font(.caption2)
           .foregroundStyle(Color.donnerTextSecondary)
       }
 
       HStack(spacing: 8) {
         Circle()
-          .fill(Color.gray.opacity(0.5))
+          .fill(Color.donnerStrikeOlder.opacity(0.6))
           .frame(width: 12, height: 12)
-        Text("storm_age_old")
+        Text("storm_age_older")
           .font(.caption2)
           .foregroundStyle(Color.donnerTextSecondary)
       }

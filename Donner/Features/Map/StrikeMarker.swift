@@ -18,11 +18,8 @@ struct StrikeMarker: View {
 
       Circle()
         .fill(
-          Color(
-            red: storm.color.red,
-            green: storm.color.green,
-            blue: storm.color.blue
-          ).opacity(storm.opacity)
+          storm.color
+            .opacity(storm.opacity)
         )
         .frame(width: 20, height: 20)
         .overlay(
